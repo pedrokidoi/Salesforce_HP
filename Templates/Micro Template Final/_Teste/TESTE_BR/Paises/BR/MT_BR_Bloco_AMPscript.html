@@ -1,0 +1,18 @@
+%%[
+
+set @rows = LookupOrderedRowsCS("DEX_BR_TEMPLATE",0,"LINHA ASC","DT_ENVIO", @data_mt, "CAMPANHA", @campanha_mt, "COLUNA", 1)
+
+for @i = 1 to RowCount(@rows) do
+
+set @bloco = field(row(@rows,@i), "NOME_BLOCO")
+
+
+]%%
+
+
+
+%%=ContentBlockByName(Concat("Content Builder\Microtemplate\Blocos_Gerais\",@bloco))=%%
+
+
+
+%%[next @i]%%

@@ -1,0 +1,68 @@
+%%[
+
+set @SubscriberKey = [SubscriberKey]
+
+set @dataenvio = format(now(),"MMddyyyy")
+
+set @dataValidadeFooter = format(now(),"dd/MM/yyyy")
+
+set @jobid = jobid
+
+
+set @camp = concat(@country,"_Baixou_")
+set @campanha = concat(@camp, @dataenvio)
+set @utm_sfmc = concat(@jobid, "_" , @SubscriberKey)
+
+if @country == "BR" then 
+  Set @botao = "Comprar agora"
+  Set @moeda = "R$"
+  Set @utm_padrao = "utm_source=HPNews&utm_medium=email&utm_content="
+elseif @country == "PE" then
+  Set @botao = "Comprar ahora"
+  Set @moeda = "S/"
+  Set @utm_padrao = "utm_source=HPOnline&utm_medium=email&utm_content="
+else
+  Set @moeda = "$"
+  Set @botao = "Comprar ahora"
+  Set @utm_padrao = "utm_source=HPOnline&utm_medium=email&utm_content="
+endif
+
+Set @utm_campaign = Concat("&utm_campaign=", @campanha, "&utm_sfmc=", @utm_sfmc)
+
+<!---Puxa dados da DEX--->
+set @dex = concat("DEX_", @country,"_BAIXOU_PRECO")
+Set @url_banner = lookup(@dex, "PRODUCT_URL_1", "SubscriberKey", @SubscriberKey)
+if not empty(@url_banner) then
+  if indexof(@url_banner,'?') > 0 then
+    set @identificador = '&'
+  else
+    set @identificador = '?'
+  endif
+  Set @url_banner_principal= concat(@url_banner, @identificador, @utm_padrao, "banner_header_baixou", @utm_campaign)
+endif
+
+set @i = 1
+set @array = LookupOrderedRows("DEX_CUPOM_BEHAVIOR",@i, "DATA_INICIO ASC","PAIS", @country, "REGUA", @regua)
+
+if not empty(@array) then
+
+  set @dtatual = FormatDate(now(), "MM/dd/yyyy")
+
+  set @campos = row(@array, @i)
+  set @data_inicio = FormatDate(field(@campos, "DATA_INICIO"), "MM/dd/yyyy")
+  set @data_fim = FormatDate(field(@campos, "DATA_FIM"), "MM/dd/yyyy")   
+  if (@dtatual >= @data_inicio AND @data_fim >= @dtatual) then
+  set @texto_1 = field(@campos, "TEXTO_1")
+  set @texto_2 = field(@campos, "TEXTO_2")
+  set @cupom = field(@campos, "CUPOM")
+  set @avisos_legais = field(@campos, "AVISO")
+  set @regua = field(@campos, "REGUA")
+  set @cuotas = field(@campos, "CUOTAS")
+  set @data_inicio_2 = FormatDate(field(@campos, "DATA_INICIO"), "MM/dd/yyyy")
+  set @data_fim_2 = FormatDate(field(@campos, "DATA_FIM"), "MM/dd/yyyy")  
+  
+  endif
+  
+endif
+
+]%%

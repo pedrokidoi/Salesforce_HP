@@ -1,0 +1,78 @@
+%%[
+
+set @SubscriberKey = [SubscriberKey]
+
+set @dataenvio = format(now(),"MMddyyyy")
+
+set @dataValidadeFooter = format(now(),"dd/MM/yyyy")
+
+set @jobid = jobid
+
+var @camp
+if @flagRepique == TRUE then
+	set @dex = concat("DEX_", @country,"_BAIXOU_PRECO_FULL")
+	set @camp = concat("PRG_BaixouRepique_", @country)
+else
+	set @dex = concat("DEX_", @country,"_BAIXOU_PRECO")
+	set @camp = concat("PRG_Baixou_", @country)
+endif
+
+var @sup 
+set @sup = concat("SUP_PRODUTOS_", @country)
+
+set @utm_sfmc = concat(@jobid, "_" , @SubscriberKey)
+
+if @country == "BR" then 
+  Set @coluna_sup = "PRODUCT_ID"
+  Set @botao = "Comprar agora"
+  Set @moeda = "R$"
+  Set @utm_padrao = "utm_source=HPNews&utm_medium=email&utm_content="
+elseif @country == "PE" then
+  Set @coluna_sup = "PRODUCT_NUMBER" 	
+  Set @botao = "Comprar ahora"
+  Set @moeda = "S/"
+  Set @utm_padrao = "utm_source=HPOnline&utm_medium=email&utm_content="
+else
+  Set @coluna_sup = "PRODUCT_NUMBER"
+  Set @moeda = "$"
+  Set @botao = "Comprar ahora"
+  Set @utm_padrao = "utm_source=HPOnline&utm_medium=email&utm_content="
+endif
+
+Set @utm_campaign = Concat("&utm_campaign=", @camp, "&utm_sfmc=", @utm_sfmc)
+
+<!---Puxa dados da DEX--->
+Set @url_banner = lookup(@dex, "PRODUCT_URL_1", "SubscriberKey", @SubscriberKey)
+if not empty(@url_banner) then
+  if indexof(@url_banner,'?') > 0 then
+    set @identificador = '&'
+  else
+    set @identificador = '?'
+  endif
+  Set @url_banner_principal= concat(@url_banner, @identificador, @utm_padrao, "banner_header_baixou", @utm_campaign)
+endif
+
+set @array = LookupOrderedRows("DEX_CUPOM_BEHAVIOR",1, "DATA_INICIO ASC","PAIS", @country, "REGUA", @regua)
+ 
+ set @numrows = RowCount(@array)
+ 
+ set @dtatual = FormatDate(now(), "MM/dd/yyyy")
+ 
+  FOR @i = 1 TO @numrows DO
+  set @campos = row(@array, @i)
+  set @data_inicio = FormatDate(field(@campos, "DATA_INICIO"), "MM/dd/yyyy")
+  set @data_fim = FormatDate(field(@campos, "DATA_FIM"), "MM/dd/yyyy")   
+  if (@dtatual >= @data_inicio AND @data_fim >= @dtatual) then
+     set @texto_1 = field(@campos, "TEXTO_1")
+     set @texto_2 = field(@campos, "TEXTO_2")
+     set @cupom = field(@campos, "CUPOM")
+     set @avisos_legais = field(@campos, "AVISO")
+  set @regua = field(@campos, "REGUA")
+  set @cuotas = field(@campos, "CUOTAS")
+     set @data_inicio_2 = FormatDate(field(@campos, "DATA_INICIO"), "MM/dd/yyyy")
+     set @data_fim_2 = FormatDate(field(@campos, "DATA_FIM"), "MM/dd/yyyy")  
+  endif  
+
+ NEXT @i
+
+]%%

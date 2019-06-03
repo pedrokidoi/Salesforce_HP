@@ -1,0 +1,37 @@
+%%[
+
+<!--chamada de dados com ordenação ascendente-->
+set @dados = isnulldefault(lookuporderedrows("dex_br_microtemplate",6,"posicao asc", "dt_envio", @data_mt ,"campanha", @campanha_mt), "")
+
+<!--verifica se existem dados correspondentes na dex-->
+if (rowcount(@dados) > 0) then
+
+<!--dados da linha referenciada pela variavel cont-->
+
+set @contaux = ADD(@cont, 1)
+set @cont = @contaux
+
+set @campos = row(@dados, @cont)
+set @nome_prod = field(@campos, "nome_prod")
+set @descricao_prod = field(@campos, "descricao_prod")
+set @url_img = field(@campos, "url_img")
+set @url = field(@campos, "url")
+set @desconto = field(@campos, "desconto")
+set @preco_de = field(@campos, "preco_de")
+set @preco_por = field(@campos, "preco_por")
+set @qtd_parcelas = field(@campos, "qtd_parcelas")
+set @valor_parcela = field(@campos, "valor_parcela")
+set @utm_content = field(@campos, "utm_content")
+
+endif
+
+
+<!-- verifica se a url contém ?. Se tiver, o separador começará com & para que não haja quebra na utm-->
+
+	if indexof(@url,'?') > 0 then
+	set @separador_utm = '&'
+	else
+	set @separador_utm = '?'
+	endif
+
+]%%

@@ -1,0 +1,70 @@
+%%[
+
+set @dadosDEX = LookupOrderedRowsCS(@DEX_dados_MT_final,0,"LINHA ASC","DT_ENVIO", @data_mt, "CAMPANHA", @campanha_mt, "NOME_BLOCO", @bloco, "COLUNA", @coluna, "LINHA", @i)
+
+if (rowcount(@dadosDEX) > 0) then
+
+set @campos = row(@dadosDEX, 1)
+set @nome_prod = field(@campos,"nome_prod")
+set @descricao_prod = field(@campos,"descricao_prod")
+set @url_img = field(@campos,"url_img")
+set @url = field(@campos,"url")
+set @desconto = field(@campos,"desconto")
+set @preco_de = field(@campos,"preco_de")
+set @preco_por = field(@campos,"preco_por")
+set @qtd_parcelas = field(@campos,"qtd_parcelas")
+set @valor_parcela = field(@campos,"valor_parcela")
+
+set @nome_prod_tratado = replace(@nome_prod,'"','')
+
+set @utm_content = trim(replace(@nome_prod_tratado," ","_"))
+
+set @texto_alt = trim(replace(@nome_prod_tratado," ","_"))
+
+
+
+if @pais_moeda == "BR" then
+ set @moeda = "R$"
+elseif @pais_moeda == "AR" or @pais_moeda == "CL" or @pais_moeda == "CO" or @pais_moeda == "MX" then
+ set @moeda = "$"
+elseif @pais_moeda == "PE" then
+ set @moeda = "S/"
+endif
+
+if empty(@preco_por) then 
+ set @moeda = ""
+endif
+
+
+
+if @idioma_bloco == "PT" then
+ set @texto_botao = "Compre agora"
+ set @texto_parcelas1 = "ou até"
+ set @texto_parcelas2 = "x de"
+ set @texto_parcelas3 = "sem juros"
+elseif @idioma_bloco == "ES" AND @country == "AR" then
+ set @texto_botao = "Comprar ahora"
+ set @texto_parcelas1 = "o hasta"
+ set @texto_parcelas2 = "cuotas de"
+ set @texto_parcelas3 = "sin interés"
+elseif @idioma_bloco == "ES" then
+ set @texto_botao = "Comprar ahora"
+ set @texto_parcelas1 = "o hasta"
+ set @texto_parcelas2 = "x de"
+ set @texto_parcelas3 = "sin intereses"
+endif
+
+
+if indexof(@url,'?') > 0 then
+set @separador_utm = '&'
+else
+set @separador_utm = '?'
+endif
+
+set @url_final = concat(@url, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+
+
+
+endif
+
+]%%

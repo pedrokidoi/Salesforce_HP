@@ -1,0 +1,19 @@
+<!-- ------------------------------ Banner Faixa Cupom ------------------------------ -->
+%%[if (@dtatual >= @data_inicio_2 AND @data_fim_2 >= @dtatual AND @cuotas == True) then]%%
+<table cellpadding="0" cellspacing="0" align="center" width="700">
+  <tr>
+    <td>
+		<table cellpadding="0" cellspacing="0" align="center" width="100%">
+			<tr align="center">
+				<td>
+					<a href="%%=RedirectTo(@link_cuotas)=%%" style="text-decoration: none" target="_blank">
+						<img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/d2197673-dab2-45d9-8c9d-3dd942030402.jpg" style="display: block; border: 0;" alt="Banner Cuotas" alias="Banner_Cuotas">
+					</a>
+				</td>
+			</tr>
+		</table>
+	</td>
+  </tr>
+</table>
+	%%[endif]%%
+<!-- ------------------------------ /Banner Faixa Cupom ------------------------------ -->

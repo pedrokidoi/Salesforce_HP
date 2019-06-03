@@ -1,0 +1,167 @@
+<!--INICIO - bloco_1prod_dir_cta_azul-->
+
+
+    
+        <table cellspacing="0" cellpadding="0" width="100%" border="0" align="center">
+
+            <!--INICIO - Prod 1-->
+
+            %%[set @coluna = 1]%% 
+            %%=ContentBlockByName("Content Builder\my contents\MicroTemplate Final\AMPscript\Geral\MT_Final_AMPScript_Din_Prod_GERAL")=%%
+
+
+            <tr>
+                <td>
+                    <table cellspacing="0" cellpadding="0" width="640" border="0" align="center">
+
+
+
+
+                        <tr>
+                            <td align="center" style="padding: 20px 0;">
+
+                                <table cellspacing="0" cellpadding="0" width="640" border="0" align="center">
+
+                                    <tr>                                    
+                                        <td>
+                                            <table cellspacing="0" cellpadding="0">                                        
+                                                <tr>
+                                                    <td align="center" valign="middle" style="padding: 10px;font-family:Helvetica, sans-serif; font-size:23px; color:#555555;line-height: 30px;display: block;overflow: hidden;">
+                                                        <a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:23px; color:#555555;text-decoration: none;">%%=v(@nome_prod)=%%</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td height="10" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #555555;line-height: 22px;display: block;overflow: hidden;">%%=v(@descricao_prod)=%%<br></td>
+                                                </tr>
+
+
+
+
+ 
+
+                                                <tr>
+                                                 %%[IF EMPTY(@desconto) THEN]%%
+                                                 <td align="right" valign="middle" height="40">&nbsp;</td>
+
+                                                 %%[ELSE]%%
+
+                                                 <td align="right" valign="middle" height="40">
+                                                    <table cellspacing="0" cellpadding="0" height="30" width="60" style="background-color:#079cdd;">
+                                                        <tr>
+
+                                                         <td align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;font-weight: bold;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;text-decoration: none;">-%%=v(@desconto)=%%%</a></td>
+
+
+                                                     </tr>
+                                                 </table>
+                                             </td>
+
+                                             %%[ENDIF]%%
+                                         </tr> 
+
+
+
+
+                                         <tr>
+                                            <td align="center" valign="middle" style="padding: 20px 0 5px;">
+                                                <table cellpadding="0" cellspacing="0">
+                                                    <tr>
+
+
+                                                        %%[IF EMPTY(@preco_de) THEN]%%
+
+                                                        <td align="center" valign="middle">&nbsp;</td>
+
+
+                                                        %%[ELSE]%%
+
+                                                        <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:18px; color:#888888;text-decoration: line-through;">
+                                                            <a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:18px; color:#888888;text-decoration: line-through; text-decoration: none;">%%=v(@moeda)=%% %%=v(@preco_de)=%%</a>
+                                                        </td>
+
+                                                        %%[ENDIF]%%
+
+
+                                                        <td width="14" style="font-size: 1px; line-height: 1px;"></td>
+                                                        <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444;">
+                                                            <a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444; text-decoration: none;">%%=v(@moeda)=%% %%=v(@preco_por)=%%</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td align="center">
+                                                <table cellspacing="0" cellpadding="0">
+                                                    <tr>
+
+
+                                                       %%[IF EMPTY(@qtd_parcelas) THEN]%%
+
+                                                       <td align="center" valign="middle">&nbsp;</td>
+
+
+                                                       %%[ELSE]%%
+
+                                                       <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;">
+                                                        <a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;text-decoration: none;">%%=v(@texto_parcelas1)=%% %%=v(@qtd_parcelas)=%% %%=v(@texto_parcelas2)=%% %%=v(@moeda)=%% %%=v(@valor_parcela)=%% <br> %%=v(@texto_parcelas3)=%%</a>
+                                                    </td>
+
+                                                    %%[ENDIF]%%
+
+
+                                                </tr> 
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td align="center" valign="middle" style="padding: 40px 0 0px;">
+                                            <table cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">%%=v(@texto_botao)=%%</a></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                            <td>
+                                <a href="%%=RedirectTo(@url_final)=%%" target="_blank"><img src="%%=v(@url_img)=%%" alt="%%=v(@texto_alt)=%%" width="340" height="340" style="display:block;border:none;"></a>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </td>
+            </tr>
+
+
+
+        </table>
+    </td>
+</tr>
+
+
+
+<!--FIM - Prod 1-->
+
+<!--INICIO - Espaço -->
+<tr>
+    <td width="700" height="30" bgcolor="#ffffff">&nbsp;</td>
+</tr>
+<!--FIM - Espaço -->
+
+
+
+</table>
+
+
+
+
+<!--FIM - bloco_1prod_dir_cta_azul-->            

@@ -1,0 +1,18 @@
+<!--INICIO - Chama Blocos-->
+
+%%[
+
+set @linhas = LookupOrderedRowsCS(@DEX_dados_MT_final,0,"LINHA ASC","DT_ENVIO", @data_mt, "CAMPANHA", @campanha_mt, "COLUNA", 1)
+
+for @i = 1 to RowCount(@linhas) do
+
+set @bloco = field(row(@linhas,@i),"NOME_BLOCO")
+
+]%%
+
+
+%%=ContentBlockByName(Concat("Content Builder\my contents\MicroTemplate Final\Blocos_HTML\", @idioma_bloco,"\",@bloco))=%%
+
+%%[next @i]%%
+
+<!--FIM - Chama Blocos-->

@@ -1,0 +1,43 @@
+<!-- ------------------------Bloco Faixa Cupom -------------------------->
+<table cellspacing="0" cellpadding="0" align="center" bgcolor="#F7F7F7" width="700">
+<tr>
+  <td>
+   %%[if (@dtatual >= @data_inicio_2 AND @data_fim_2 >= @dtatual) then]%%
+       <table cellpadding="0" cellspacing="0" align="center" width="100%">
+     <tr>
+      <td height="20">&nbsp;</td>
+     </tr>
+
+     <tr>
+      <td>
+       <table cellspacing="0" cellpadding="0" align="center" bgcolor="#F7F7F7">
+        <tr>
+         <td style="text-align:center;font-family: Verdana, Helvetica, sans-serif; font-size:22px; color:#000000; padding: 2px">%%=v(@texto_1)=%% <span style="text-align:center;font-family:Helvetica, sans-serif; font-size: 20px;font-weight: 800; border: 4px dashed #0894d1; padding: 2px 4px">%%=v(@cupom)=%%</span></td>
+        </tr>
+
+        <tr>
+         <td style="text-align:center;font-family:Verdana, Helvetica, sans-serif; font-size: 22px; color: #000000; padding: 4px 2px 2px 2px">%%=v(@texto_2)=%%</td>
+        </tr>
+
+        <tr>
+         <td style="text-align:center;font-family:Verdana, Helvetica, sans-serif; font-size: 12px; color: #000000; padding: 2px">%%=v(@avisos_legais)=%%</td>
+        </tr>
+       </table>
+      </td>
+     </tr>
+
+      <tr>
+      <td height="20">&nbsp;</td>
+     </tr>
+    </table>
+   %%[else]%%
+      
+         </td></tr><tr>
+      <td height="20">&nbsp;</td>
+     </tr>
+      
+   %%[endif]%%
+  
+
+</table>
+<!-- ------------------------/Bloco Faixa Cupom ------------------------ -->

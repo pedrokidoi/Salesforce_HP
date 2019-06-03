@@ -1,0 +1,645 @@
+%%[
+
+ if @country == @pais then
+  set @SubscriberKey = [SubscriberKey]
+  
+  set @utm_content = "bloco_behavior"
+
+  set @flag_sem_produtos = false
+  
+  var @dex_produtos
+  set @dex_produtos = Concat("SUP_PRODUTOS_", @country)
+
+  var @dex_abandono
+  set @dex_abandono = Concat("DEX_LAST_ABANDON_", @country)
+
+  var @dex_navegacao
+  set @dex_navegacao = Concat("DEX_LAST_NAVIGATION_", @country)
+
+  set @dados_abandono = lookuporderedrows(@dex_abandono,1,"DATE_PROC asc","SubscriberKey", @SubscriberKey)
+  set @dados_navegacao = lookuporderedrows(@dex_navegacao,1,"DATE_PROC asc","SubscriberKey", @SubscriberKey)
+
+  set @qtdrows_abandono = RowCount(@dados_abandono)
+  set @qtdrows_navegacao = RowCount(@dados_navegacao)
+
+  IF @qtdrows_abandono == 0 THEN
+   set @qtdrows = @qtdrows_navegacao
+   set @dados = @dados_navegacao
+   if @qtdrows_navegacao == 0 then 
+    set @qtdrows = 0
+    set @flag_sem_produtos = true
+   endif
+  ELSE
+   set @qtdrows = @qtdrows_abandono
+   set @dados = @dados_abandono
+  ENDIF
+
+
+  if @qtdrows > 0 then 
+  
+   var @contador_produtos
+   set @contador_produtos = 0
+   
+   var @break 
+   set @break = false
+
+   if @break == false THEN
+    FOR @cont = 1 TO 3 DO 
+     set @campos = row(@dados, 1)
+     set @product = Concat("PRODUCT_URL_", @cont)
+     set @product_url = field(@campos, @product) 
+     if empty (@product_url) then 
+      set @break = true
+     else 
+      set @contador_produtos = Add(@contador_produtos, 1)
+     endif
+    NEXT @cont
+   endif
+   
+   if @pais_moeda == "BR" then
+    set @coluna_id = "PRODUCT_ID"
+    set @moeda = "R$"
+   elseif @pais_moeda == "AR" or @pais_moeda == "CL" or @pais_moeda == "CO" or @pais_moeda == "MX" then
+    set @coluna_id = "PRODUCT_NUMBER"
+    set @moeda = "$"
+   elseif @pais_moeda == "PE" then
+    set @coluna_id = "PRODUCT_NUMBER"
+    set @moeda = "S/"
+   endif
+   
+   var @texto_bloco
+
+   if @idioma_bloco == "PT" then
+    set @texto_botao = "Compre agora"
+    set @texto_bloco = "Veja o que separamos para você!"
+   elseif @idioma_bloco == "ES" AND @country == "AR" then
+    set @texto_botao = "Comprar ahora"
+    set @texto_bloco = "¡Mirá lo que preparamos para vos!"
+   elseif @idioma_bloco == "ES" then
+    set @texto_botao = "Comprar ahora"
+    set @texto_bloco = "¡Mira lo que preparamos para ti!"
+   endif  
+    
+
+  ]%%
+
+   
+    
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
+  <tr>
+   <td align="center" width="640" height="52" style="font-family:Helvetica, sans-serif; font-size:30px; color:#079cdd;text-decoration: none;">%%=v(@texto_bloco)=%%
+   </td>
+  </tr>
+  </table>
+    
+   
+
+    %%[if @contador_produtos == 1 then]%%
+     %%[
+   <!---Dados Vitrine com 1 Produto--->
+    set @campos = row(@dados, 1)
+    
+    set @id_produto = field(@campos, "ID_PRODUCT_1")
+    set @product_url = field(@campos, "PRODUCT_URL_1")
+    IF not empty(@product_url) THEN
+     if indexof(@product_url,'?') > 0 then
+      set @separador_utm = '&'
+     else
+      set @separador_utm = '?'
+     endif
+    ENDIF
+    set @url_img = field(@campos, "IMG_URL_1")
+    set @nome_prod = Lookup(@dex_produtos,'TITLE',@coluna_id,@id_produto) 
+    set @preco_por = field(@campos, "PRICE_TO_1")
+    set @url_final = concat(@product_url, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+     
+    if empty(@preco_por) then 
+     set @moeda = ""
+    endif
+   <!---Fim Dados Vitrine com 1 Produto1--->
+   ]%%
+   
+   <!--INICIO - bloco_1prod_esq_cta_azul-->
+   
+    
+     <table cellspacing="0" cellpadding="0" width="100%" border="0" align="center">
+      <!--INICIO - Prod 1-->
+      <tr>
+    <td align="center" style="padding: 20px 0;">
+
+     <table cellspacing="0" cellpadding="0" width="640" border="0" align="center">
+      
+      
+      <tr>
+       <td>
+     <a href="%%=RedirectTo(@url_final)=%%" target="_blank"><img src="%%=v(@url_img)=%%" alt="%%=v(@texto_alt)=%%" width="340" height="340" style="display:block;border:none;"></a>
+       </td>                                    
+       <td>
+     <table cellspacing="0" cellpadding="0">                                        
+      <tr>
+       <td align="center" valign="middle" style="padding: 10px;font-family:Helvetica, sans-serif; font-size:23px; color:#555555;line-height: 30px;display: block;overflow: hidden;">
+        <a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:23px; color:#555555;text-decoration: none;">%%=v(@nome_prod)=%%</a>
+       </td>
+      </tr>
+      <tr>
+       <td height="10" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+      </tr>
+
+
+
+   <!--           
+       <tr>
+     <td align="center" valign="middle" style="padding: 20px 0 5px;">
+      <table cellpadding="0" cellspacing="0">
+       <tr>
+
+        <td align="center" valign="middle">&nbsp;</td>         
+
+        <td width="14" style="font-size: 1px; line-height: 1px;"></td>
+        <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444;">
+      <a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444; text-decoration: none;">%%=v(@moeda)=%% %%=v(@preco_por)=%%</a>
+        </td>
+       </tr>
+      </table>
+     </td>
+       </tr>
+  -->
+
+      <tr>
+       <td align="center" valign="middle" style="padding: 40px 0 0px;">
+     <table cellpadding="0" cellspacing="0">
+      <tr>
+       <td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">%%=v(@texto_botao)=%%</a></td>
+      </tr>
+     </table>
+       </td>
+      </tr>
+
+     </table>
+    </td>                                    
+      </tr>
+
+      
+     </table>
+
+    </td>
+   </tr>
+
+   <!--FIM - Prod 1-->
+
+   <!--INICIO - Espaço -->
+   <tr>
+    <td width="700" height="30" bgcolor="#ffffff">&nbsp;</td>
+   </tr>
+   <!--FIM - Espaço -->
+   </table>
+   
+   
+   <!--FIM - bloco_1prod_esq_cta_azul-->
+  
+    %%[elseif @contador_produtos == 2 then]%%
+    %%[
+    <!---Dados Vitrine com 2 Produtos--->
+    set @campos = row(@dados, 1)
+     
+    <!---Produto1 --->
+    set @id_produto_1 = field(@campos, "ID_PRODUCT_1")
+    set @product_url_1 = field(@campos, "PRODUCT_URL_1")
+    IF not empty(@product_url_1) THEN
+     if indexof(@product_url_1,'?') > 0 then
+      set @separador_utm = '&'
+     else
+      set @separador_utm = '?'
+     endif
+    ENDIF
+    set @url_img_1 = field(@campos, "IMG_URL_1")
+    set @nome_prod_1 = Lookup(@dex_produtos,'TITLE',@coluna_id,@id_produto_1)   
+    set @preco_por_1 = field(@campos, "PRICE_TO_1") 
+    set @url_final_1 = concat(@product_url_1, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+
+    if empty(@preco_por_1) then 
+     set @moeda = ""
+    endif
+    <!---Fim Produto 1--->
+
+    <!---Produto 2--->
+    set @id_produto_2 = field(@campos, "ID_PRODUCT_2")
+    set @product_url_2 = field(@campos, "PRODUCT_URL_2")
+    IF not empty(@product_url_2) THEN
+     if indexof(@product_url_2,'?') > 0 then
+      set @separador_utm = '&'
+     else
+      set @separador_utm = '?'
+     endif
+    ENDIF
+    set @url_img_2 = field(@campos, "IMG_URL_2")
+    set @titulo2 = field(@campos, "NAME_2")
+    set @nome_prod_2 = Lookup(@dex_produtos,'TITLE',@coluna_id,@id_produto_2)   
+    set @preco_por_2 = field(@campos, "PRICE_TO_2")
+    set @url_final_2 = concat(@product_url_2, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+     
+    if empty(@preco_por_2) then 
+     set @moeda = "" 
+    endif
+    <!---Fim Produto 2--->   
+    
+   <!---Fim Dados Vitrine com 2 Produtos--->
+   ]%%
+   <!--INICIO - bloco_2prod_cta_azul_precopor_azul-->
+   
+    
+     <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
+      <tr>
+    <td align="center" style="padding: 30px 0;">
+
+     <table cellpadding="0" cellspacing="0" border="0" width="640" align="center">
+
+      <tr>
+
+
+       <td width="315" align="center">
+     <table cellpadding="0" cellspacing="0" border="0">
+      <tr>
+       <td height="90" align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 23px;color: #555555;line-height: 30px;display: block;overflow: hidden;"><a href="%%=RedirectTo(@url_final_1)=%%" target="_blank" style="font-family: Arial, sans-serif;font-size: 23px;color: #555555;line-height: 30px;text-decoration: none;">%%=v(@nome_prod_1)=%%</a></td>
+      </tr>
+      <tr>
+       <td height="20" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+      </tr>
+      
+
+      <tr>
+       <td align="center">
+        <a href="%%=RedirectTo(@url_final_1)=%%" target="_blank"><img src="%%=v(@url_img_1)=%%" style="display:block;border:none;" width="203" height="203" alt="%%=v(@texto_alt)=%%"></a>
+       </td>
+      </tr>                                            
+      <!--
+       <tr>
+       <td align="center" valign="middle">
+        <table cellpadding="0" cellspacing="0">
+      <tr>
+
+
+       <td align="center" valign="middle">&nbsp;</td>
+
+
+       <td width="10" style="font-size: 1px; line-height: 1px;"></td>
+       <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:26px; color:#0794d2;font-weight: bold;"><a href="%%=RedirectTo(@url_final_1)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:26px; color:#0794d2; text-decoration: none;font-weight: bold;">%%=v(@moeda)=%% %%=v(@preco_por_1)=%%</a>
+       </td>
+      </tr>
+        </table>
+       </td>
+      </tr>-->
+      <tr>
+       <td align="center" valign="middle" style="padding: 40px 0 0px;">
+        <table cellpadding="0" cellspacing="0">
+      <tr>
+       <td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@url_final_1)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">%%=v(@texto_botao)=%%</a></td>
+      </tr>
+        </table>
+       </td>
+      </tr>
+     </table>
+       </td>
+
+       <!--FIM - Prod 1-->
+
+
+
+
+       <td width="70" style="font-size: 1px;line-height: 1px;"></td>
+       
+
+
+
+
+
+
+       <!--INICIO - Prod 2-->
+
+
+       <td width="315" align="center">
+     <table cellpadding="0" cellspacing="0" border="0">
+      <tr>
+       <td height="90" align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 23px;color: #555555;line-height: 30px;display: block;overflow: hidden;"><a href="%%=RedirectTo(@url_final_2)=%%" target="_blank" style="font-family: Arial, sans-serif;font-size: 23px;color: #555555;line-height: 30px;text-decoration: none;">%%=v(@nome_prod_2)=%%</a></td>
+      </tr>
+      <tr>
+       <td height="20" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+      </tr>
+
+      <tr>
+       <td align="center">
+        <a href="%%=RedirectTo(@url_final_2)=%%" target="_blank"><img src="%%=v(@url_img_2)=%%" style="display:block;border:none;" width="203" height="203" alt="%%=v(@texto_alt)=%%"></a>
+       </td>
+      </tr>                                            
+       <!--  <tr>
+       <td align="center" valign="middle">
+        <table cellpadding="0" cellspacing="0">
+      <tr>
+
+       <td align="center" valign="middle">&nbsp;</td>
+
+       <td width="10" style="font-size: 1px; line-height: 1px;"></td>
+       <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:26px; color:#0794d2;font-weight: bold;"><a href="%%=RedirectTo(@url_final_2)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:26px; color:#0794d2; text-decoration: none;font-weight: bold;">%%=v(@moeda)=%% %%=v(@preco_por_2)=%%</a>
+       </td>
+      </tr>
+        </table>
+       </td>
+      </tr>-->
+      <tr>
+       <td align="center" valign="middle" style="padding: 40px 0 0px;">
+        <table cellpadding="0" cellspacing="0">
+      <tr>
+       <td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@url_final_2)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">%%=v(@texto_botao)=%%</a></td>
+      </tr>
+        </table>
+       </td>
+      </tr>
+     </table>
+       </td>
+
+       <!--FIM - Prod 2-->
+      </tr>
+
+
+
+     </table>
+
+    </td>
+      </tr>
+
+
+
+      <!--INICIO - Espaço -->
+      <tr>
+    <td width="700" height="30" bgcolor="#ffffff">&nbsp;</td>
+      </tr>
+      <!--FIM - Espaço -->
+     </table>
+    
+   
+   <!--FIM - bloco_2prod_cta_azul_precopor_azul-->
+  
+  %%[elseif @contador_produtos == 3 then]%%
+   %%[
+    <!---Dados Vitrine com 3 Produtos--->
+    set @campos = row(@dados, 1)
+     
+     <!---Produto1 --->
+     set @id_produto_1 = field(@campos, "ID_PRODUCT_1")
+     set @product_url_1 = field(@campos, "PRODUCT_URL_1")
+     IF not empty(@product_url_1) THEN
+      if indexof(@product_url_1,'?') > 0 then
+       set @separador_utm = '&'
+      else
+       set @separador_utm = '?'
+      endif
+     ENDIF
+     set @url_img_1 = field(@campos, "IMG_URL_1")
+     set @nome_prod_1 = Lookup(@dex_produtos,'TITLE',@coluna_id,@id_produto_1)   
+     set @preco_por_1 = field(@campos, "PRICE_TO_1")
+     set @url_final_1 = concat(@product_url_1, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+
+     if empty(@preco_por_1) then 
+      set @moeda = ""
+     endif
+     <!---Fim Produto 1--->
+   
+     <!---Produto2 --->
+      set @id_produto_2 = field(@campos, "ID_PRODUCT_2")
+      set @product_url_2 = field(@campos, "PRODUCT_URL_2")
+      IF not empty(@product_url_2) THEN
+       if indexof(@product_url_2,'?') > 0 then
+        set @separador_utm = '&'
+       else
+        set @separador_utm = '?'
+       endif
+      ENDIF
+      set @url_img_2 = field(@campos, "IMG_URL_2")
+      set @nome_prod_2 = Lookup(@dex_produtos,'TITLE',@coluna_id,@id_produto_2)   
+      set @preco_por_2 = field(@campos, "PRICE_TO_2")
+      set @url_final_2 = concat(@product_url_2, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+
+      if empty(@preco_por_2) then 
+       set @moeda = ""
+      endif
+     <!---Fim Produto 2--->
+   
+     <!---Produto3 --->
+      set @id_produto_3 = field(@campos, "ID_PRODUCT_3")
+      set @product_url_3 = field(@campos, "PRODUCT_URL_3")
+      IF not empty(@product_url_3) THEN
+       if indexof(@product_url_3,'?') > 0 then
+        set @separador_utm = '&'
+       else
+        set @separador_utm = '?'
+       endif
+      ENDIF
+      set @url_img_3 = field(@campos, "IMG_URL_3")
+      set @nome_prod_3 = Lookup(@dex_produtos,'TITLE',@coluna_id,@id_produto_3)   
+      set @preco_por_3 = field(@campos, "PRICE_TO_3")
+      set @url_final_3 = concat(@product_url_3, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+
+      if empty(@preco_por_3) then 
+       set @moeda = ""
+      endif
+     <!---Fim Produto 3--->
+     
+   <!---Fim Dados Vitrine com 3 Produtos--->
+   ]%%
+   <!--INICIO - bloco_3prod_cta_azul_precopor_azul-->
+   
+    
+   <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
+     <tr>
+   <td align="center" style="padding: 30px 0;">
+
+    <table cellpadding="0" cellspacing="0" border="0" width="640" align="center">
+
+     <tr>
+
+
+
+  <!--INICIO - Prod 1-->
+
+
+   <td width="190" align="center" valign="top">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+     <tr>
+      <td height="90" align="center" valign="top" style="font-family: Arial, sans-serif;font-size: 21px;color: #555555;line-height: 30px;display: block;overflow: hidden;"><a href="%%=RedirectTo(@url_final_1)=%%" target="_blank" style="font-family: Arial, sans-serif;font-size: 21px;color: #555555;line-height: 30px;text-decoration: none;">%%=v(@nome_prod_1)=%%</a></td>
+     </tr>
+     <tr>
+      <td height="10" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+     </tr>
+
+
+     <tr>
+      <td align="center">
+    <a href="%%=RedirectTo(@url_final_1)=%%" target="_blank"><img src="%%=v(@url_img_1)=%%" style="display:block;border:none;" width="187" height="187" alt="%%=v(@texto_alt)=%%"></a>
+      </td>
+     </tr>                                            
+     <!-- <tr>
+      <td align="center" valign="middle" style="padding-top: 17px;">
+    <table cellpadding="0" cellspacing="0">
+    <tr>
+     
+
+      <td align="center" valign="middle">&nbsp;</td>
+
+
+      <td width="10" style="font-size: 1px; line-height: 1px;"></td>
+      <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:24px; color:#0794d2;font-weight: bold;">
+       <a href="%%=RedirectTo(@url_final_1)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:24px; color:#0794d2; text-decoration: none;font-weight: bold;">%%=v(@moeda)=%% %%=v(@preco_por_1)=%%</a>
+      </td>
+     </tr>
+    </table>
+      </td>
+     </tr>-->
+     <tr>
+      <td align="center" valign="middle" style="padding: 23px 0 0px;">
+    <table cellpadding="0" cellspacing="0">
+     <tr>
+      <td align="center" width="180" height="44" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@url_final_1)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">%%=v(@texto_botao)=%%</a></td>
+     </tr>
+    </table>
+      </td>
+     </tr>
+    </table>
+   </td>
+
+  <!--FIM - Prod 1-->
+
+
+
+
+
+   <td width="35" align="center">
+    <table cellpadding="0" cellspacing="0">
+     <tr>
+      <td align="center"><img src="img/linha.jpg" width="1" height="472" style="display:block;border:none;"></td>
+     </tr>
+    </table>
+   </td>
+
+
+
+  <!--INICIO - Prod 2-->
+
+
+
+
+
+   <td width="190" align="center" valign="top">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+     <tr>
+      <td height="90" align="center" valign="top" style="font-family: Arial, sans-serif;font-size: 21px;color: #555555;line-height: 30px;display: block;overflow: hidden;"><a href="%%=RedirectTo(@url_final_2)=%%" target="_blank" style="font-family: Arial, sans-serif;font-size: 21px;color: #555555;line-height: 30px;text-decoration: none;">%%=v(@nome_prod_2)=%%</a></td>
+     </tr>
+     <tr>
+      <td height="10" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+     </tr>
+
+
+     <tr>
+      <td align="center">
+    <a href="%%=RedirectTo(@url_final_2)=%%" target="_blank"><img src="%%=v(@url_img_2)=%%" style="display:block;border:none;" width="187" height="187" alt="%%=v(@texto_alt)=%%"></a>
+      </td>
+     </tr>                                            
+     <!-- <tr>
+      <td align="center" valign="middle" style="padding-top: 17px;">
+    <table cellpadding="0" cellspacing="0">
+    <tr>
+
+      <td align="center" valign="middle">&nbsp;</td>
+
+
+      <td width="10" style="font-size: 1px; line-height: 1px;"></td>
+      <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:24px; color:#0794d2;font-weight: bold;">
+       <a href="%%=RedirectTo(@url_final_2)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:24px; color:#0794d2; text-decoration: none;font-weight: bold;">%%=v(@moeda)=%% %%=v(@preco_por_2)=%%</a>
+      </td>
+     </tr>
+    </table>
+      </td>
+     </tr>-->
+     <tr>
+      <td align="center" valign="middle" style="padding: 23px 0 0px;">
+    <table cellpadding="0" cellspacing="0">
+     <tr>
+      <td align="center" width="180" height="44" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@url_final_2)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">%%=v(@texto_botao)=%%</a></td>
+     </tr>
+    </table>
+      </td>
+     </tr>
+    </table>
+   </td>
+
+  <!--FIM - Prod 2-->
+
+   <td width="35" align="center">
+    <table cellpadding="0" cellspacing="0">
+     <tr>
+      <td align="center"><img src="img/linha.jpg" width="1" height="472" style="display:block;border:none;"></td>
+     </tr>
+    </table>
+   </td>
+
+  <!--INICIO - Prod 3-->
+
+   <td width="190" align="center" valign="top">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+     <tr>
+      <td height="90" align="center" valign="top" style="font-family: Arial, sans-serif;font-size: 21px;color: #555555;line-height: 30px;display: block;overflow: hidden;"><a href="%%=RedirectTo(@url_final_3)=%%" target="_blank" style="font-family: Arial, sans-serif;font-size: 21px;color: #555555;line-height: 30px;text-decoration: none;">%%=v(@nome_prod_3)=%%</a></td>
+     </tr>
+     <tr>
+      <td height="10" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+     </tr>
+     
+     <tr>
+      <td align="center">
+    <a href="%%=RedirectTo(@url_final_3)=%%" target="_blank"><img src="%%=v(@url_img_3)=%%" style="display:block;border:none;" width="187" height="187" alt="%%=v(@texto_alt)=%%"></a>
+      </td>
+     </tr>                                            
+    <!-- <tr>
+      <td align="center" valign="middle" style="padding-top: 17px;">
+    <table cellpadding="0" cellspacing="0">
+     <tr>
+
+      <td align="center" valign="middle">&nbsp;</td>
+
+      <td width="10" style="font-size: 1px; line-height: 1px;"></td>
+      <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:24px; color:#0794d2;font-weight: bold;">
+       <a href="%%=RedirectTo(@url_final_3)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:24px; color:#0794d2; text-decoration: none;font-weight: bold;">%%=v(@moeda)=%% %%=v(@preco_por_3)=%%</a>
+      </td>
+     </tr>
+    </table>
+      </td>
+     </tr>-->
+     <tr>
+      <td align="center" valign="middle" style="padding: 23px 0 0px;">
+    <table cellpadding="0" cellspacing="0">
+     <tr>
+      <td align="center" width="180" height="44" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@url_final_3)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">%%=v(@texto_botao)=%%</a></td>
+     </tr>
+    </table>
+      </td>
+     </tr>
+    </table>
+   </td>
+  <!--FIM - Prod 3-->
+
+     </tr>
+      <!--INICIO - Espaço -->
+      <tr>
+    <td width="700" height="30" bgcolor="#ffffff">&nbsp;</td>
+      </tr>
+      <!--FIM - Espaço -->
+  </table>
+
+    </td>
+   </tr>
+  </table>
+
+   <!--INICIO - bloco_3prod_cta_azul_precopor_azul-->
+
+  %%[endif]%%
+  
+ %%[ENDIF]%%
+%%[ENDIF]%%

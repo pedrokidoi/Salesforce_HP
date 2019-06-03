@@ -1,0 +1,25 @@
+%%[
+ Set @link_tj_1 = Concat("https://www.hponline.cl/?utm_source=HPOnline&utm_medium=email&utm_content=ftr-tj-1&utm_campaign=",@dataenvio,"_CL")
+ Set @link_tj_2 = Concat("https://www.hponline.cl/?utm_source=HPOnline&utm_medium=email&utm_content=ftr-tj-2&utm_campaign=",@dataenvio,"_CL")
+]%%
+
+ 
+  <table width="540" cellspacing="0" cellpadding="0" align="center" class="resize" bgcolor="#FFFFFF">
+   <tr>
+    <td valign="top">
+     <table width="100%" cellspacing="0" cellpadding="0" align="center" class="resize_5" bgcolor="#FFFFFF">
+      <tr>
+       <td valign="top" style="font-family:arial;font-size:14px;color:#767676;font-weight:bold" align="left">
+        <p style="font-family:arial;font-size:10px;color:#767676">Promociones válidas hasta el %%=v(@data_validade)=%% o hasta agotar stock. Sólo aplican a compras en el sitio web <a href="%%=RedirectTo(@link_tj_1)=%%" target="_blank" style="color:#009ce7">www.hponline.cl</a> o llamando al call center HP Online (123-0020-7503 Opción 1,2,1).<br><br>%%=v(@tj_promocional)=%%
+          Las imágenes son sólo ilustrativas. Ofertas no acumulables con otras promociones, válidas para compras a través de <a href="%%=RedirectTo(@link_tj_2)=%%" target="_blank" style="color:#009ce7">www.hponline.cl</a>. Todos los derechos reservados ©%%xtyear%%HP Inc.&nbsp;<br>
+         </p>
+       </td>
+      </tr>
+     </table>
+    </td>
+   </tr>
+   <tr>
+    <td style="font-size:0px;" height="20">&nbsp;</td>
+   </tr>
+  </table>
+ 

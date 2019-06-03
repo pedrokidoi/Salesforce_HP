@@ -1,0 +1,88 @@
+%%[
+
+<!--Variável usada nos blocos dinâmicos-->
+set @pais = 'CL'
+
+<!--Tabela com os dados do MT-->
+set @DEX_dados_MT_final = "DEX_MT_Final_CL"
+
+<!--Idioma do bloco-->
+set @idioma_bloco = "ES" 
+
+<!--Define a moeda-->
+set @pais_moeda = "CL" 
+
+set @dataenvio = format(now(),"MMddyyyy")   
+
+set @emailusu = [Email Address]
+
+set @jobid = jobid
+
+set @country = isnulldefault(lookup("ckm_customer", "country", "email address", @emailusu),"CL")
+
+set @tipo_contato = isnulldefault(lookup('dex_geral_seedlist',"emailaddress", "emailaddress", @emailusu), "")
+
+
+if empty(@tipo_contato) then 
+set @flag_contato = 'launch'
+else
+set @flag_contato = 'seed'
+endif
+
+
+if empty(@onda) then
+set @ondaconcat = ""
+else
+set @ondaconcat = concat(@onda, "_")
+endif
+
+
+if not empty(@troca_utm) then 
+ set @cmp = @troca_utm
+else 
+ set @cmp = @campanha_mt
+endif
+
+if empty(@DEX_ENVIO) then
+set @DEX_ENVIO = "DEX_DISPARO_GERAL_CL"
+else
+set @DEX_ENVIO = @DEX_ENVIO
+endif
+
+set @SubscriberKey = isnulldefault([SubscriberKey],0)
+
+set @subsKey = isnulldefault(Lookup(@DEX_ENVIO, "SubscriberKey", "EmailAddress", @emailusu),0)
+
+set @utm_sfmc = concat(@jobid, "_" , @subskey, "_", @flag_contato)
+
+set @utm_padrao = "utm_source=HPOnline&utm_medium=email&utm_content="
+
+set @utm_campaign = concat("&utm_campaign=", @cmp, "_", @ondaconcat, @dataenvio, "_", @country, "&utm_sfmc=", @utm_sfmc)
+
+
+set @data = now()
+set @diaatual = format(@data,"ddddd") 
+
+if @diaatual == "monday" then
+set @data = dateadd(@data,"6","d")         
+elseif @diaatual == "tuesday" then
+set @data = dateadd(@data,"5","d")     
+elseif @diaatual == "wednesday" then
+set @data = dateadd(@data,"4","d")     
+elseif @diaatual == "thursday" then
+set @data = dateadd(@data,"3","d")     
+elseif @diaatual == "friday" then
+set @data = dateadd(@data,"2","d")    
+elseif @diaatual == "saturday" then
+set @data = dateadd(@data,"1","d")   
+elseif @diaatual == "sunday" then
+set @data = dateadd(@data,"0","d")    
+endif
+
+set @dia = Datepart(@data,'day')
+set @mes = ProperCase(FormatDate(@data, "MMMM",,"es-CL"))
+set @ano = Datepart(@data,'year')
+
+set @data_validade = concat(@dia, " de ", @mes, " de ", @ano)
+
+]%%

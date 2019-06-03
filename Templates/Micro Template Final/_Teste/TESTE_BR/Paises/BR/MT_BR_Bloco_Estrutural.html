@@ -1,0 +1,91 @@
+﻿%%[
+
+<!--nessa área encontram-se somente as dinamizações que não possuem regras estáticas. As dinamizações com regra padrão estão no arquivo MT_BR_Bloco_AMP_Dinamizacao_Padrao referenciado abaixo-->
+
+<!--insira o valor presente na coluna DT_ENVIO da DEX-->
+set @data_mt = ""
+
+<!--insira o valor presente na coluna CAMPANHA da DEX-->
+set @campanha_mt = "" 
+
+<!--variavel contador para incrementar a posição de busca da dex. deve sempre ser iniciada com valor 0-->
+set @cont = 0
+
+<!--variavel que indicará a onda da campanha-->
+set @onda = ""
+
+<!--aviso legal adicional-->
+set @tj_promocional = ""
+
+<!--preencha essa variavel caso seja necessário incluir um texto legal que mude a data de validade do email-->
+set @muda_dt_validade = ""
+
+<!--bloco que chama as demais dinamizações padrão do template-->
+ContentBlockByName("Content Builder\my contents\MicroTemplate\BR\AMPscript\MT_BR_Bloco_AMP_Dinamizacao_Padrao")
+
+]%%
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>HP</title>
+    <style type="text/css">   		
+    .ExternalClass * {line-height:100%;}
+    .a5q {display:none!important;}
+    .MsoNormal {line-height:normal;}
+    table div {display:initial!important;}
+    a[href^="x-apple-data-detectors"] {
+        color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+    }
+    @media only screen and (max-width: 480px) {
+        a[href^="x-apple-data-detectors:"] {
+            color: inherit !important;
+            text-decoration: inherit !important;
+        }
+    }
+</style>
+</head>
+<body style="margin:0;padding:0;">
+
+
+    %%=ContentBlockByName("Content Builder\my contents\MicroTemplate\BR\AMPscript\MT_BR_Bloco_AMP_RockingTags")=%%
+
+
+    
+    <table cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <td align="center">
+                <table cellpadding="0" cellspacing="0" align="center" width="700">
+                   <tbody>
+
+
+                    <!-- ------------------------Bloco Header------------------------ -->
+                    %%=ContentBlockByName("Content Builder\my contents\MicroTemplate\BR\Blocos\MT_BR_Bloco_Header")=%%
+                    <!-- ------------------------/Bloco Header------------------------ -->
+
+
+
+                    <!-- ------------------------Bloco Conteudo------------------------ -->
+                   
+                    <!-- ------------------------/Bloco Conteudo------------------------ -->
+
+
+
+                    <!-- ------------------------Bloco Footer------------------------ -->
+                    %%=ContentBlockByName("Content Builder\my contents\MicroTemplate\BR\Blocos\MT_BR_Bloco_Footer")=%%
+                    <!-- ------------------------/Bloco Footer------------------------ -->
+
+
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+ <custom name="opencounter" type="tracking"></body>

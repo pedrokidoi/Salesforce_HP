@@ -1,0 +1,14 @@
+<!-- Rockin Tags Pmweb / SalesForce -->
+%%[
+ Set @mv = IsNullDefault(Lookup("CKM_Customer", "SubscriberKey", "Email Address", [Email Address]),0)
+ Set @uc = Concat(@dataenvio, "_BR")
+ Set @pmweb_pixel = Concat(
+  "https://df.pmweb.com.br/i?aid=PM-RIXAE5&cid=0&sid=0&mk=sfid&mv=", @mv,
+  "&us=HPOnline&um=email&uc=", @uc,
+  "&rl=", JobID,
+  "&sd=", Format(Now(),"yyyyMMddy"),
+  "&url=", view_email_url
+ )
+]%%
+<img alt="" height="1" width="1" src="%%=v(@pmweb_pixel)=%%" style="display: block; margin: 0 auto; border: 0">
+<!-- Rockin Tags Pmweb / SalesForce -->

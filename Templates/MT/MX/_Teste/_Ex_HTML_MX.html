@@ -1,0 +1,161 @@
+  %%[
+   Set @dataenvio = Format(Now(),"MMddyyyy")   
+   Set @emailusu = [Email Address]
+   Set @jobid = JobID
+   Set @country = IsNullDefault(Lookup("CKM_Customer", "Country", "Email Address", @emailusu),0)
+   Set @gatag = Concat(@dataenvio, "_MX")
+   Set @onda = ""
+   Set @tipo = "Supplies_"
+  Set @flag = ""
+   Set @data = IsNullDefault(Lookup('DEX_GERAL_SEEDLIST',"EmailAddress", "EmailAddress", @emailusu), @flag)
+      If @data == "" then 
+    Set @flag = 'Launch'
+   ElseIf @data == @emailusu then  
+    Set @flag = 'Seed'
+   Endif
+   Set @campanha = Concat(@tipo, @onda, @dataenvio)
+   Set @subsKey = Lookup("DEX_SUPPLIES_MX_20180711", "SubscriberKey", "EmailAddress", @emailusu)
+   Set @utm_sfmc = Concat(JobID, "_" , @subsKey, "_", @flag)
+   Set @utm_padrao = "utm_source=HPOnline&utm_medium=email&utm_content="
+   Set @utm_campaign = Concat("&utm_campaign=", @campanha, "_MX&utm_sfmc=", @utm_sfmc)
+ 
+ Set @diaAtual = Format(Now(),"d") 
+ Set @mesAtual = Format(Now(),"MM")
+ Set @anoAtual = Format(Now(),"yyyy")  
+ Set @diadasemanaAtual = Format(Now(),"dddd")
+     
+ If @mesAtual == "01" then
+  Set @mes = 'Enero'
+    ElseIf @mesAtual == "02" then
+  Set @mes = 'Febrero'
+    ElseIf @mesAtual == "03" then
+  Set @mes = 'Marzo'
+    ElseIf @mesAtual == "04" then
+  Set @mes = 'Abril'
+    ElseIf @mesAtual == "05" then
+  Set @mes = 'Mayo'
+    ElseIf @mesAtual == "06" then
+  Set @mes = 'Junio'
+    ElseIf @mesAtual == "07" then
+  Set @mes = 'Julio'
+ ElseIf @mesAtual == "08" then
+  Set @mes = 'Agosto'
+ ElseIf @mesAtual == "09" then
+  Set @mes = 'Septiembre'
+ ElseIf @mesAtual == "10" then
+  Set @mes = 'Octubre'
+ ElseIf @mesAtual == "11" then
+  Set @mes = 'Noviembre'
+ ElseIf @mesAtual == "12" then
+  Set @mes = 'Diciembre'
+    Endif
+ 
+    If @diadasemanaAtual == "Monday" then
+  Set @diaAtual = Format(DateAdd(Now(),"6","d"),"dd")         
+    ElseIf @diadasemanaAtual == "Tuesday" then
+  Set @diaAtual = Format(DateAdd(Now(),"5","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Wednesday" then
+  Set @diaAtual = Format(DateAdd(Now(),"4","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Thursday" then
+  Set @diaAtual = Format(DateAdd(Now(),"3","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Friday" then
+  Set @diaAtual = Format(DateAdd(Now(),"2","d"),"dd")    
+    ElseIf @diadasemanaAtual == "Saturday" then
+  Set @diaAtual = Format(DateAdd(Now(),"1","d"),"dd")   
+    ElseIf @diadasemanaAtual == "Sunday" then
+  Set @diaAtual = Format(DateAdd(Now(),"0","d"),"dd")    
+    Endif 
+ 
+ Set @data_validade = Concat(@diaAtual, " de ", @mes, " de ", @anoAtual)
+ Set @data_validade_2 = Format(Now(),"dd/MM/yyyy")
+ Set @tj_promocional = ""
+]%%
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HP</title>
+<style>%%=ContentBlockByName("Content Builder\my contents\COMPONENTS\STYLE\MX_STYLE")=%%</style>
+</head>
+
+<body bgcolor="#f0f0f0">
+  
+  <!-- Rockin Tags Pmweb / SalesForce -->
+%%[
+ Set @mv = IsNullDefault(Lookup("CKM_Customer", "SubscriberKey", "Email Address", [Email Address]),0)
+ Set @uc = Concat(@dataenvio, "_AR")
+ Set @pmweb_pixel = Concat(
+  "https://df.pmweb.com.br/i?aid=PM-RIXAE5&cid=0&sid=0&mk=sfid&mv=", @mv,
+  "&us=HPOnline&um=email&uc=", @uc,
+  "&rl=", JobID,
+  "&sd=", Format(Now(),"yyyyMMddy"),
+  "&url=", view_email_url
+ )
+]%%
+<img alt="" height="1" width="1" src="%%=v(@pmweb_pixel)=%%">
+<!-- Rockin Tags Pmweb / SalesForce -->
+
+<table width="100%" cellspacing="0" cellpadding="0" align="center" bgcolor="#f0f0f0">
+ <tr>
+  <td valign="top">
+     
+   <!-- BEGIN LOWNAV SECTION--> 
+   %%=ContentBlockByName("Content Builder\my contents\COMPONENTS\PRE_HEADER\MX_PRE_HEADER")=%%
+   <!-- END LOWNAV SECTION -->
+   
+   <table width="600" cellspacing="0" cellpadding="0" align="center" class="resize" bgcolor="#FFFFFF" style="box-shadow: 0px 1px 2px #c7c7c7;-webkit-box-shadow: 0px 1px 2px #c7c7c7; -moz-box-shadow: 0px 1px 2px #c7c7c7; -ms-box-shadow: 0px 1px 2px #c7c7c7; -o-box-shadow: 0px 1px 2px #c7c7c7;">
+   
+<!--------------------------------------------------------------- BEGIN DESTAQUE ACCENTURE HTML ------------------------------------------------------------> 
+ %%[Set @utm_content = "cartuchos-y-toners"]%%
+    <tr>
+     <td valign="top" bgcolor="#f0f0f0">
+      <a href="https://www.hponline.com.mx/c/cartuchos-y-toners?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank">
+       <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/75c7ca7f-7560-4587-b28a-f15f2a3c1337.jpg" alt="HP - Tenemos los cartuchos de tinta y tóner que tú necesitas" title="HP - Tenemos los cartuchos de tinta y tóner que tú necesitas" width="600" height="178" class="resize" style="display:block;" border="0" />
+      </a>
+     </td>
+    </tr>
+    <tr>
+     %%[Set @utm_content = "cartuchos-y-toners"]%%
+     <td valign="top" bgcolor="#f0f0f0">
+      <a href="https://www.hponline.com.mx/c/cartuchos-y-toners?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank">
+       <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/51b239cf-aee3-4375-bc32-0ed96dd507b0.jpg" alt="15% de descuento* en cartuchos de tinta y tóners - Usando el cupón: tinta15" title="15% de descuento* en cartuchos de tinta y tóners - Usando el cupón: tinta15" width="600" height="302" class="resize" style="display:block;" border="0" />
+      </a>
+     </td>
+    </tr>
+    
+    <tr>
+     %%[Set @utm_content = "cartuchos-y-toners"]%%
+     <td valign="top" bgcolor="#f0f0f0">
+      <a href="https://www.hponline.com.mx/c/cartuchos-y-toners?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank">
+       <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/123c4d54-92b5-469a-bd91-685d2d55bc50.jpg" alt="*Monto máximo de $1,000 Cupón válido por 15 dias - Comprar ahora Gratis - Consulte nuestra promociones bancarias" title="*Monto máximo de $1,000 Cupón válido por 15 dias - Comprar ahora Gratis - Consulte nuestra promociones bancarias" width="600" height="169" class="resize" style="display:block;" border="0" />
+      </a>
+     </td>
+    </tr>
+
+    
+
+<!------------------------------------------------------------ BEGIN DESTAQUE ACCENTURE HTML ------------------------------------------------------------> 
+     </table>
+  </td>
+ </tr>
+    <tr>
+     <td valign="top" bgcolor="#f0f0f0" align="left">
+      <!-- BEGIN LOWNAV SECTION-->  
+      %%=ContentBlockByName("Content Builder\my contents\COMPONENTS\Lownav\MX_LOWNAV_SECTION")=%%
+      <!-- END LOWNAV SECTION -->
+     </td>
+    </tr>
+    
+    <!-- BEGIN TJ FOOTER -->  
+    %%=ContentBlockByName("Content Builder\my contents\COMPONENTS\TJ_FOOTER\MX_TJ_FOOTER_V2")=%%
+    <!-- END TJ FOOTER -->
+    
+
+</table>
+<custom name="opencounter" type="tracking">
+</body>
+</html>

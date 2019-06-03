@@ -1,0 +1,23 @@
+%%[
+
+set @dadosDEX = LookupOrderedRows("DEX_MT_BR",0,"LINHA ASC","DT_ENVIO", @data_mt, "CAMPANHA", @campanha_mt, "NOME_BLOCO", @bloco, "COLUNA", 1)
+
+if (rowcount(@dadosDEX) > 0) then
+
+<!--dados da linha referenciada pela variavel cont-->
+
+set @campos = row(@dadosDEX, 1)
+set @NOME_PROD = field(@campos,"NOME_PROD")
+set @DESCRICAO_PROD = field(@campos,"DESCRICAO_PROD")
+set @URL_IMG = field(@campos,"URL_IMG")
+set @URL = field(@campos,"URL")
+set @DESCONTO = field(@campos,"DESCONTO")
+set @PRECO_DE = field(@campos,"PRECO_DE")
+set @PRECO_POR = field(@campos,"PRECO_POR")
+set @QTD_PARCELAS = field(@campos,"QTD_PARCELAS")
+set @VALOR_PARCELA = field(@campos,"VALOR_PARCELA")
+
+endif
+
+
+]%%

@@ -1,0 +1,78 @@
+%%[
+  set @dataenvio = format(now(),"MMddyyyy")   
+  set @emailusu = [Email Address]
+  set @jobid = jobid
+  set @country = isnulldefault(lookup("ckm_customer", "country", "email address", @emailusu),0)
+  set @gatag = concat(@dataenvio, "_MX")
+
+  set @tipo_contato = isnulldefault(lookup('dex_geral_seedlist',"emailaddress", "emailaddress", @emailusu), "")
+
+  if empty(@tipo_contato) then 
+  set @flag_contato = 'launch'
+  else
+  set @flag_contato = 'seed'
+  endif
+  
+  if empty(@onda) then
+  set @ondaconcat = ""
+  else
+  set @ondaconcat = concat("_", @onda)
+  endif
+
+  set @campanha = concat(@campanha_mt, @ondaconcat, "_", @dataenvio)
+  Set @subsKey = Lookup("DEX_DISPARO_GERAL_MX", "SubscriberKey", "EmailAddress", @emailusu)
+  set @utm_sfmc = concat(@jobid, "_" , @subskey, "_", @flag_contato)
+  Set @utm_padrao = "utm_source=HPOnline&utm_medium=email&utm_content="
+  Set @utm_campaign = Concat("&utm_campaign=", @campanha, "_CO&utm_sfmc=", @utm_sfmc)
+
+  set @diaatual = format(now(),"d") 
+  set @mesatual = format(now(),"MM")
+  set @anoatual = format(now(),"yyyy") 
+  set @diadasemanaatual = format(now(),"dddd")
+
+  If @mesAtual == "01" then
+  Set @mes = 'Enero'
+   ElseIf @mesAtual == "02" then
+  Set @mes = 'Febrero'
+    ElseIf @mesAtual == "03" then
+  Set @mes = 'Marzo'
+     ElseIf @mesAtual == "04" then
+  Set @mes = 'Abril'
+    ElseIf @mesAtual == "05" then
+  Set @mes = 'Mayo'
+    ElseIf @mesAtual == "06" then
+  Set @mes = 'Junio'
+     ElseIf @mesAtual == "07" then
+  Set @mes = 'Julio'
+ ElseIf @mesAtual == "08" then
+  Set @mes = 'Agosto'
+ ElseIf @mesAtual == "09" then
+  Set @mes = 'Septiembre'
+ ElseIf @mesAtual == "10" then
+  Set @mes = 'Octubre'
+ ElseIf @mesAtual == "11" then
+  Set @mes = 'Noviembre'
+ ElseIf @mesAtual == "12" then
+  Set @mes = 'Diciembre'
+    Endif
+
+  if @diadasemanaatual == "monday" then
+  set @diaatual = format(dateadd(now(),"6","d"),"dd")         
+  elseif @diadasemanaatual == "tuesday" then
+  set @diaatual = format(dateadd(now(),"5","d"),"dd")     
+  elseif @diadasemanaatual == "wednesday" then
+  set @diaatual = format(dateadd(now(),"4","d"),"dd")     
+  elseif @diadasemanaatual == "thursday" then
+  set @diaatual = format(dateadd(now(),"3","d"),"dd")     
+  elseif @diadasemanaatual == "friday" then
+  set @diaatual = format(dateadd(now(),"2","d"),"dd")    
+  elseif @diadasemanaatual == "saturday" then
+  set @diaatual = format(dateadd(now(),"1","d"),"dd")   
+  elseif @diadasemanaatual == "sunday" then
+  set @diaatual = format(dateadd(now(),"0","d"),"dd")    
+  endif
+
+  set @data_validade = concat(@diaatual, " de ", @mes, " de ", @anoatual)
+  set @data_validade_2 = format(now(),"dd/MM/yyyy")
+
+]%%

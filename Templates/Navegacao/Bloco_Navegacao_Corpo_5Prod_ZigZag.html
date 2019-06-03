@@ -1,0 +1,249 @@
+<table cellpadding="0" cellspacing="0" align="center" width="700">
+ %%[
+ <!---Puxa dados da DEX--->
+ Set @dados = lookuporderedrows(@dex, 1,"DATE_PROC asc","SubscriberKey", @SubscriberKey)
+  Set @qtdrows = RowCount(@dados)
+  <!---Verifica se existem linhas na variável que puxa dados da DEX--->
+  if @qtdrows > 0 then
+   <!---Loop para puxar as informações da linha--->
+   FOR @cont = 1 TO 5 DO 
+    <!---Dados Produtos--->
+    Set @campos = row(@dados, 1)
+    set @id = Concat("ID_PRODUCT_", @cont)
+    set @product = Concat("PRODUCT_URL_", @cont)
+    set @img = Concat("IMG_URL_", @cont)
+    set @nome = Concat("NAME_", @cont)
+    set @from = Concat("PRICE_FROM_", @cont)
+    set @to = Concat("PRICE_TO_", @cont)
+    
+    Set @utm_content = field(@campos, @id)
+    Set @product_url = field(@campos, @product)
+
+    Set @img_url = field(@campos, @img)
+
+    Set @img_url_trat = Replace(@img_url,"-zoom","")
+
+    Set @name = field(@campos, @nome)
+    Set @price_from = field(@campos, @from)
+    set @pricefrom_sup = Lookup(@sup, 'PRICE', @coluna_sup, @utm_content)
+ IF @price_from == @pricefrom_sup THEN
+  Set @price_from = field(@campos, @from) 
+ ELSE 
+  set @price_from = @pricefrom_sup
+ ENDIF
+ 
+    Set @price_to = field(@campos, @to)
+ set @priceto_sup = Lookup(@sup, 'SALE_PRICE', @coluna_sup, @utm_content)
+ IF @price_to == @priceto_sup THEN
+  Set @price_to = field(@campos, @to)
+ ELSE 
+  set @price_to = @priceto_sup
+ ENDIF
+    if not empty(@product_url) then
+     if indexof(@product_url,'?') > 0 then
+      set @separador_utm = '&'
+     else
+      set @separador_utm = '?'
+     endif
+
+     set @product_url = concat(@product_url, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+    endif
+    
+
+    
+    <!---Fim Dados Produtos--->
+  ]%% 
+ 
+ <!-- ------------------------------/Verifica se existe produto------------------------------ -->
+ %%[if not empty(@product_url) then]%%
+ 
+  <!-- ---------------------/Verifica se cont é par ou ímpar para apresentação ZigZag-------------------------- -->
+  %%[if Mod(@cont,2) == 0 then]%%
+   <!-- ------------------------------/Produtos direita------------------------------ -->
+   <tr>
+    <td align="center" style="padding: 20px 0;">
+     <table cellspacing="0" cellpadding="0" width="640" border="0">
+      <tr>
+       <td>
+        <a href="%%=RedirectTo(@product_url)=%%" target="_blank"><img src="%%=v(@img_url)=%%" width="340" height="340" style="display:block;border:none;"></a>
+       </td>                                    
+       <td>
+        <table cellspacing="0" cellpadding="0">                                        
+         <tr>
+          <td align="center" valign="middle" height="54" style="padding: 10px;font-family:Helvetica, sans-serif; font-size:23px; color:#555555;line-height: 30px;display: block;overflow: hidden;">
+           <a href="%%=RedirectTo(@product_url)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:23px; color:#555555;text-decoration: none;">%%=v(@name)=%%</a>
+          </td>
+         </tr>
+         <tr>
+          <td height="10" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+         </tr>
+         <tr>
+          <td align="left" valign="middle" height="50" style="padding-left: 10px; font-family: Arial, sans-serif;font-size: 14px;color: #555555;line-height: 22px;display: block;overflow: hidden;">&nbsp;</td>
+         </tr>
+         <tr>
+          <td align="right" valign="middle" height="40">&nbsp;</td>
+         </tr>  
+         <tr>
+          <td align="center" valign="middle" style="padding: 20px 0 5px;">
+          <table cellpadding="0" cellspacing="0">
+           <tr>
+            <!-------------Verifica se existe preço DE---------------->
+            %%[if not empty(@price_from) then]%%
+             
+              <!----------Verifica se o preço DE e POR são iguais---------->
+              %%[if @price_from <= @price_to then]%%
+
+               <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:18px; color:#888888;text-decoration: line-through;">
+               </td>
+
+              %%[else]%%
+
+               <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:18px; color:#888888;text-decoration: line-through;">
+                <a href="%%=RedirectTo(@product_url)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:18px; color:#888888;text-decoration: line-through; text-decoration: none;"><strike>%%=v(@moeda)=%% %%=v(@price_from)=%%</strike></a>
+               </td>
+
+              %%[endif]%%
+            <!----------/Verifica se o preço DE e POR são iguais--------------->
+
+            %%[else]%%
+
+             <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:18px; color:#888888;text-decoration: line-through;">
+              <a href="%%=RedirectTo(@product_url)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:18px; color:#888888;text-decoration: line-through; text-decoration: none;"></a>
+             </td>
+
+
+            %%[endif]%%
+            <!------------/Verifica se existe preço DE--------------->
+
+            <td width="14" style="font-size: 1px; line-height: 1px;"></td>
+            <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444;">
+             <a href="%%=RedirectTo(@product_url)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444; text-decoration: none;">%%=v(@moeda)=%% %%=v(@price_to)=%%</a>
+            </td>
+           </tr>
+          </table>
+          </td>
+         </tr>
+
+         <tr>
+          <td align="center">&nbsp;</td>
+         </tr>
+
+         <tr>
+          <td align="center" valign="middle" style="padding: 40px 0 0px;">
+           <table cellpadding="0" cellspacing="0">
+            <tr>
+             <td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;">
+              <a href="%%=RedirectTo(@product_url)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">%%=v(@botao)=%%</a>
+             </td>
+            </tr>
+           </table>
+          </td>
+         </tr>
+        </table>
+       </td>                                    
+      </tr>
+     </table>
+    </td>
+   </tr>
+   <!-- ------------------------------/ Produtos direita ------------------------------ -->
+  %%[else]%%  
+   <!-------------------------------------/ Produto Esquerda --------------------------->
+   <tr>
+    <td align="center" style="padding: 20px 0;">
+     <table cellspacing="0" cellpadding="0" width="640" border="0">
+      <tr>                                    
+      <td>
+       <table cellspacing="0" cellpadding="0">                                        
+        <tr>
+         <td align="center" valign="middle" height="54" style="padding: 10px;font-family:Helvetica, sans-serif; font-size:23px; color:#555555;line-height: 30px;display: block;overflow: hidden;">
+          <a href="%%=RedirectTo(@product_url_2)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:23px; color:#555555;text-decoration: none;">%%=v(@name)=%%</a>
+         </td>
+        </tr>
+        <tr>
+         <td height="10" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+        </tr>
+        <tr>
+         <td align="left" valign="middle" height="50" style="font-family: Arial, sans-serif;font-size: 14px;color: #555555;line-height: 22px;display: block;overflow: hidden;">&nbsp;</td>
+        </tr>
+        <tr>
+         <td align="right" valign="middle" height="40">&nbsp;</td>
+        </tr>  
+        <tr>
+         <td align="center" valign="middle" style="padding: 20px 0 5px;">
+          <table cellpadding="0" cellspacing="0">
+           <tr>
+            <!----------Verifica se existe preço DE---------------->
+            %%[if not empty(@price_from) then]%%
+
+             <!------------Verifica se o preço DE e POR são iguais--------------->
+             %%[if @price_from <= @price_to then]%%
+
+              <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:18px; color:#888888;text-decoration: line-through;">
+              </td>
+
+             %%[else]%%
+
+              <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:18px; color:#888888;text-decoration: line-through;">
+               <a href="%%=RedirectTo(@product_url)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:18px; color:#888888;text-decoration: line-through; text-decoration: none;"><strike>%%=v(@moeda)=%% %%=v(@price_from)=%%</strike></a>
+              </td>
+
+             %%[endif]%%
+             <!--------------/Verifica se o preço DE e POR são iguais------------->
+
+            %%[else]%%
+
+             <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:18px; color:#888888;text-decoration: line-through;">
+              <a href="%%=RedirectTo(@product_url)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:18px; color:#888888;text-decoration: line-through; text-decoration: none;"></a>
+             </td>
+
+
+            %%[endif]%%
+            <!--------------/Verifica se existe preço DE----------->
+
+
+            <td width="14" style="font-size: 1px; line-height: 1px;"></td>
+            <td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444;">
+             <a href="%%=RedirectTo(@product_url)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444; text-decoration: none;">%%=v(@moeda)=%% %%=v(@price_to)=%%</a>
+            </td>
+           </tr>
+          </table>
+         </td>
+        </tr>
+
+        <tr>
+         <td align="center">&nbsp;</td>
+        </tr>
+
+        <tr>
+         <td align="center" valign="middle" style="padding: 40px 0 0px;">
+          <table cellpadding="0" cellspacing="0">
+           <tr>
+            <td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@product_url)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">%%=v(@botao)=%%</a></td>
+           </tr>
+          </table>
+         </td>
+        </tr>
+       </table>
+       
+      </td>
+      <td>
+       <a href="%%=RedirectTo(@product_url)=%%" target="_blank"><img src="%%=v(@img_url)=%%" width="340" height="340" style="display:block;border:none;"></a>
+      </td>
+     </tr>
+     </table>
+    </td>
+   </tr>
+   <!-- ------------------------/Produto (Esquerda)------------------------------------- -->
+  %%[endif]%%
+  <!-- ------------------------------/Fim dos blocos de produtos------------------------------ --> 
+ 
+ %%[endif]%%
+ <!-- ------------------------------/Fim verificação de produtos------------------------------ -->
+ 
+ %%[NEXT @cont]%%
+ <!-- ------------------------------/Fim do laço de produtos------------------------------ -->
+
+ %%[endif]%%
+ <!-- ------------------------------/Fim da verificação de produtos------------------------------ -->
+
+</table>

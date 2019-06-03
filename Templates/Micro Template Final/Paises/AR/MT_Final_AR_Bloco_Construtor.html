@@ -1,0 +1,127 @@
+﻿%%[
+
+<!--nessa área encontram-se somente as dinamizações que não possuem regras estáticas. As dinamizações com regra padrão estão no arquivo MT_Final_AR_AMPScipt_Bloco_Din_Padrao referenciado abaixo-->
+
+<!--insira o nome da DEX de envio, caso não seja a padrão DEX_DISPARO_GERAL_AR-->
+set @DEX_ENVIO = ""
+
+<!--insira o valor presente na coluna DT_ENVIO da DEX-->
+set @data_mt = ""
+
+<!--insira o valor presente na coluna CAMPANHA da DEX-->
+set @campanha_mt = "" 
+
+<!--variavel contador para incrementar a posição de busca da dex. deve sempre ser iniciada com valor 0-->
+set @cont = 0
+
+<!--variavel que indicará a onda da campanha-->
+set @onda = ""
+
+<!--preencha essa variável caso seja necessária a troca do campanha_mt no utm_campaign-->
+set @troca_utm = "" 
+
+<!--aviso legal adicional-->
+set @tj_promocional = ""
+
+<!--preencha essa variavel caso seja necessário incluir um texto legal que mude a data de validade do email-->
+set @muda_dt_validade = ""
+
+<!--preencha essa variavel caso seja necessário alterar TODO o texto do footer. ATENÇÃO! Os links devem estar setados em variaveis e devem ser chamados através da função RedirectTo-->
+set @muda_texto_juridico_footer = ""
+
+
+
+
+<!--bloco que chama as demais dinamizações padrão do template-->
+ContentBlockByName("Content Builder\my contents\MicroTemplate Final\AMPscript\AR\MT_Final_AR_AMPScipt_Bloco_Din_Padrao")
+
+]%%
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>HP</title>
+    <style type="text/css">     
+    .ExternalClass * {line-height:100%;}
+    .a5q {display:none!important;}
+    .MsoNormal {line-height:normal;}
+    table div {display:initial!important;}
+    a[href^="x-apple-data-detectors"] {
+        color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+    }
+    @media only screen and (max-width: 480px) {
+        a[href^="x-apple-data-detectors:"] {
+            color: inherit !important;
+            text-decoration: inherit !important;
+        }
+    }
+</style>
+</head>
+<body style="margin:0;padding:0;">
+
+
+<!--INICIO - Bloco Pixel RockingTags-->
+    %%=ContentBlockByName("Content Builder\my contents\MicroTemplate Final\AMPscript\AR\MT_Final_AR_AMPScipt_Bloco_RockingTags")=%%
+<!--FIM - Bloco Pixel RockingTags-->
+
+    
+    <table cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <td align="center">
+                <table cellpadding="0" cellspacing="0" align="center" width="700">
+                   <tbody>
+
+<tr>
+  <td>
+                    <!-- ------------------------INICIO - Bloco Header------------------------ -->
+                    %%=ContentBlockByName("Content Builder\my contents\MicroTemplate Final\Blocos\AR\MT_Final_AR_Bloco_Header")=%%
+                    <!-- ------------------------FIM - Bloco Header------------------------ -->
+  </td>
+</tr>
+                     <tr height="15px"><td></td></tr>
+
+<tr>
+  <td>
+                    <!-- ------------------------INICIO - Bloco Conteúdo------------------------ -->
+                    %%=ContentBlockByName("Content Builder\my contents\MicroTemplate Final\AMPscript\Geral\MT_Final_AMPScript_Din_Chama_Blocos_GERAL")=%%
+                    <!-- ------------------------FIM - Bloco Conteúdo------------------------ -->
+  </td>
+</tr>
+
+                     %%[if not empty(@SubscriberKey) then]%%
+                         <tr>
+  <td>
+                    <!-- ------------------------INICIO - Bloco Footer------------------------ -->
+                    %%=ContentBlockByName("Content Builder\my contents\Blocos_Dinamicos\Bloco_Dinamico")=%%
+                    <!-- ------------------------FIM - Bloco Footer------------------------ -->
+  </td>
+                     </tr>
+                     %%[endif]%%
+                     
+<tr>
+  <td>
+                    <!-- ------------------------INICIO - Bloco Footer------------------------ -->
+                    %%=ContentBlockByName("Content Builder\my contents\MicroTemplate Final\Blocos\AR\MT_Final_AR_Bloco_Footer")=%%
+                    <!-- ------------------------FIM - Bloco Footer------------------------ -->
+  </td>
+</tr>
+
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<!--INICIO - Tag open SF-->
+<custom name="opencounter" type="tracking"></custom>
+<!--FIM - Tag open SF-->
+
+</body>
+</html>

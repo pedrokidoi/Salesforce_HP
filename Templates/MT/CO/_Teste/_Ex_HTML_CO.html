@@ -1,0 +1,155 @@
+%%[
+ Set @dataenvio = Format(Now(),"MMddyyyy")   
+ Set @emailusu = [Email Address]
+ Set @jobid = JobID
+ Set @country = IsNullDefault(Lookup("CKM_Customer", "Country", "Email Address", @emailusu),0)
+ Set @gatag = Concat(@dataenvio, "_CO")
+ Set @onda = ""
+ Set @tipo = "Blast_"
+Set @flag = ""
+ Set @data = IsNullDefault(Lookup('DEX_GERAL_SEEDLIST',"EmailAddress", "EmailAddress", @emailusu), @flag)
+    If @data == "" then 
+  Set @flag = 'Launch'
+ ElseIf @data == @emailusu then  
+  Set @flag = 'Seed'
+ Endif
+ Set @campanha = Concat(@tipo, @onda, @dataenvio)
+ Set @subsKey = Lookup("DEX_DISPARO_GERAL_CO", "SubscriberKey", "EmailAddress", @emailusu)
+Set @utm_sfmc = Concat(JobID, "_" , @subsKey, "_", @flag)
+ Set @utm_padrao = "utm_source=HPOnline&utm_medium=email&utm_content="
+ Set @utm_campaign = Concat("&utm_campaign=", @campanha, "_CO&utm_sfmc=", @utm_sfmc)
+ 
+ 
+ Set @diaAtual = Format(Now(),"d") 
+ Set @mesAtual = Format(Now(),"MM")
+ Set @anoAtual = Format(Now(),"yyyy") 
+ Set @diadasemanaAtual = Format(Now(),"dddd") 
+     
+ If @mesAtual == "01" then
+  Set @mes = 'Enero'
+    ElseIf @mesAtual == "02" then
+  Set @mes = 'Febrero'
+    ElseIf @mesAtual == "03" then
+  Set @mes = 'Marzo'
+    ElseIf @mesAtual == "04" then
+  Set @mes = 'Abril'
+    ElseIf @mesAtual == "05" then
+  Set @mes = 'Mayo'
+    ElseIf @mesAtual == "06" then
+  Set @mes = 'Junio'
+    ElseIf @mesAtual == "07" then
+  Set @mes = 'Julio'
+ ElseIf @mesAtual == "08" then
+  Set @mes = 'Agosto'
+ ElseIf @mesAtual == "09" then
+  Set @mes = 'Septiembre'
+ ElseIf @mesAtual == "10" then
+  Set @mes = 'Octubre'
+ ElseIf @mesAtual == "11" then
+  Set @mes = 'Noviembre'
+ ElseIf @mesAtual == "12" then
+  Set @mes = 'Diciembre'
+    Endif
+ 
+    If @diadasemanaAtual == "Monday" then
+  Set @diaAtual = Format(DateAdd(Now(),"6","d"),"dd")         
+    ElseIf @diadasemanaAtual == "Tuesday" then
+  Set @diaAtual = Format(DateAdd(Now(),"5","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Wednesday" then
+  Set @diaAtual = Format(DateAdd(Now(),"4","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Thursday" then
+  Set @diaAtual = Format(DateAdd(Now(),"3","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Friday" then
+  Set @diaAtual = Format(DateAdd(Now(),"2","d"),"dd")    
+    ElseIf @diadasemanaAtual == "Saturday" then
+  Set @diaAtual = Format(DateAdd(Now(),"1","d"),"dd")   
+    ElseIf @diadasemanaAtual == "Sunday" then
+  Set @diaAtual = Format(DateAdd(Now(),"0","d"),"dd")    
+    Endif 
+ 
+ Set @data_validade = Concat(@diaAtual, " de ", @mes, " de ", @anoAtual)
+ Set @data_validade_2 = Format(Now(),"dd/MM/yyyy")
+ Set @tj_promocional = ""
+]%% 
+<!DOCTYPE html>
+ <html>
+ <head>
+  <title>HP</title>
+ </head>
+
+ <body bgcolor="#f0f0f0" style="margin: 0 auto;background-color: #f0f0f0">
+   
+   <!-- Rockin Tags Pmweb / SalesForce -->
+%%[
+ Set @mv = IsNullDefault(Lookup("CKM_Customer", "SubscriberKey", "Email Address", [Email Address]),0)
+ Set @uc = Concat(@dataenvio, "_AR")
+ Set @pmweb_pixel = Concat(
+  "https://df.pmweb.com.br/i?aid=PM-RIXAE5&cid=0&sid=0&mk=sfid&mv=", @mv,
+  "&us=HPOnline&um=email&uc=", @uc,
+  "&rl=", JobID,
+  "&sd=", Format(Now(),"yyyyMMddy"),
+  "&url=", view_email_url
+ )
+]%%
+<img alt="" height="1" width="1" src="%%=v(@pmweb_pixel)=%%">
+<!-- Rockin Tags Pmweb / SalesForce -->
+
+ <table cellspacing="0" cellpadding="0" align="center" bgcolor="#f0f0f0" width="100%">
+  <tbody>
+  
+  <!-- BEGIN PRE HEADER SECTION-->
+  %%=ContentBlockByName("Content Builder\my contents\COMPONENTS\PRE_HEADER\CO_PRE_HEADER")=%%
+  <!-- END PRE HEADER SECTION -->
+  
+  <tr>
+   <td>
+    <!-- START MAIL BODY-->
+    <table width="600" cellspacing="0" cellpadding="0" border="0" align="center">
+
+<!--------------------------------------------------------------- BEGIN DESTAQUE ACCENTURE HTML ------------------------------------------------------------> 
+
+ <tr>
+  %%[Set @utm_content = "principal-5810"]%%<td>
+   <a href="https://www.hponline.com.co/p/impresora-multifuncional-hp-deskjet-gt-5810-kit-primeras-tintas-ynpyzv?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"
+    onmouseover="window.status='%%=v(@utm_content)=%%';  return true;"
+    onmouseout="window.status='';  return true;">
+    <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/ec9df633-43c1-4741-94fd-88d02e024619.jpg" width="600" height="545" class="resize" style="display:block;" border="0" alt="%%=v(@utm_content)=%%"></a></td>
+ </tr>
+ <tr>
+  %%[Set @utm_content = "5820"]%%<td>
+   <a href="https://www.hponline.com.co/p/impresora-multifuncional-hp-deskjet-gt-5820-tnbmr5?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"
+    onmouseover="window.status='%%=v(@utm_content)=%%';  return true;"
+    onmouseout="window.status='';  return true;">
+    <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/93dcb274-8db9-4d06-8529-7257df2a66fc.jpg" width="600" height="312" class="resize" style="display:block;" border="0" alt="%%=v(@utm_content)=%%"></a></td>
+ </tr>
+ <tr>
+  %%[Set @utm_content = "pie-Cartuchosytoners"]%%<td>
+   <a href="https://www.hponline.com.co/c/cartuchos-y-toners?skus=HP071HP0L2XVSLACO,HP071HP0KHIA0LACO,HE009EL0BONUWLCO,HP071HP0L2XVSLACO,HP071HP1K7IKOLACO,HP071HP0QFUBSLACO,HP071HP121K4WLACO,HP071HP12CIFCLACO&?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"
+    onmouseover="window.status='%%=v(@utm_content)=%%';  return true;"
+    onmouseout="window.status='';  return true;">
+    <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/37601c12-920f-4999-a765-3e8100dcce9c.jpg" width="600" height="414" class="resize" style="display:block;" border="0" alt="%%=v(@utm_content)=%%"></a></td>
+ </tr>
+
+
+    
+<!--------------------------------------------------------------- END DESTAQUE ACCENTURE HTML ------------------------------------------------------------> 
+    </table>
+   </td>
+  </tr>
+  <tr>
+   <td>
+    <!-- BEGIN LOWNAV SECTION-->
+    %%=ContentBlockByName("Content Builder\my contents\COMPONENTS\Lownav\CO_LOWNAV_SECTION")=%%
+    <!-- END LOWNAV SECTION -->
+   </td>
+  </tr>
+  
+  <!-- BEGIN TJ FOOTER SECTION-->
+  %%=ContentBlockByName("Content Builder\my contents\COMPONENTS\TJ_FOOTER\CO_TJ_FOOTER")=%%
+  <!-- END TJ FOOTER SECTION -->
+  
+  </tbody>
+ </table>
+ <custom name="opencounter" type="tracking">
+ </body>
+ </html>

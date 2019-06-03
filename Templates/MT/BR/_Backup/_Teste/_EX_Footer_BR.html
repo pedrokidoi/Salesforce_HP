@@ -1,0 +1,55 @@
+%%[
+Set @link_tj = Concat("http://www.hp.com.br/loja?utm_source=HPNews&utm_medium=Email&utm_campaign=", @utm_campaign, "&utm_content=frt1")
+Set @link_faleconosco = Concat("http://www.lojahp.com.br/site/Faleconosco.aspx?utm_source=HPNews&utm_medium=Email&utm_campaign=", @utm_campaign, "&utm_content=fale_conosco")
+]%%
+
+
+<table width="600" cellspacing="0" cellpadding="0" align="center" class="resize_5" bgcolor="#e1dfe0">
+
+
+</table><table width="100%" cellspacing="0" cellpadding="0" align="center" class="resize" bgcolor="#e1dfe0">
+
+ <tr>
+  <td style="font-size:0px;" height="20">&nbsp;</td>
+</tr>
+<tr>
+  <td valign="top">
+
+   <table width="540" cellspacing="0" cellpadding="0" align="center" class="resize_5" bgcolor="#e1dfe0">
+    <tr>
+     <td valign="top" style="font-family:arial;font-size:10px;color:#767676;font-weight:bold" align="left"><p style="font-family:arial;font-size:10px;color:#767676">
+
+       %%[if empty(@muda_dt_validade) then]%%
+
+       Ofertas válidas até %%=v(@data_validade)=%% ou enquanto durarem os estoques, exclusivamente para produtos adquiridos na Loja Online HP: <a href="%%=RedirectTo(@link_tj)=%%" title="www.hp.com.br/loja" target="_blank" style="color:#009ce7">www.hp.com.br/loja</a>.</p> 
+
+       %%[else]%%
+
+       <p> %%=v(@muda_dt_validade)=%% </p>
+
+
+       %%[endif]%%
+
+
+       <p> %%=v(@tj_promocional)=%% </p>
+
+
+       <p>As fotografias aqui exibidas são ilustrativas e certos acessórios podem não estar incluídos. Compaq e o logotipo da HP são marcas registradas da Hewlett-Packard Company. Microsoft e Windows são marcas registradas ou marcas comerciais da Microsoft Corporation nos Estados Unidos e/ou em outros países. ©2015 Hewlett-Packard Development Company, L.P. Os produtos anunciados que são beneficiados pela Lei de Informática são os que têm valor de até R$ 4.000,00. Imagens meramente ilustrativas. A HP recomenda a utilização de itens originais e não se responsabiliza por componentes não originais incorporados no equipamento. Oferta sujeita à disponibilidade de estoque. O valor do frete para Suprimentos e Acessórios varia conforme a localidade.</p>
+       <p>Tel.: 4003-8388 – Horário de funcionamento: de segunda a sexta, das 8h à 0h, e sábados, domingos e feriados, das 8h às 20h. Dúvidas? <a href="%%=RedirectTo(@link_faleconosco)=%%" title="Fale Conosco" target="_blank" style="color:#009ce7"> Fale Conosco</a>.</p>
+       <p>CNPJ: 09358108/0001-25 – Caixa postal exclusiva da loja virtual e envio de correspondências: 19083<br>
+       CEP: 04505-970 São Paulo – SP</p>
+       <p>Caso não deseje mais receber as novidades da Loja Online HP, <a href="%%subscription_center_url%%" title="remova aqui" target="_blank" style="color:#009ce7">remova aqui</a>.
+
+
+
+       </p></td>
+     </tr>
+   </table>
+ </td></tr></table>
+
+
+
+ &nbsp;
+
+
+ 

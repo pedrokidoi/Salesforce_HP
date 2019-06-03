@@ -1,0 +1,20 @@
+%%[
+
+set @dadosDEX = LookupOrderedRows(@nometabela,0,"LINHA ASC","DT_ENVIO", @data_mt, "CAMPANHA", @campanha_mt, "NOME_BLOCO", @bloco, "COLUNA", @coluna)
+
+if (rowcount(@dadosDEX) > 0) then
+
+set @campos = row(@dadosDEX, 1)
+set @nome_prod = field(@campos,"nome_prod")
+set @descricao_prod = field(@campos,"descricao_prod")
+set @url_img = field(@campos,"url_img")
+set @url = field(@campos,"url")
+set @desconto = field(@campos,"desconto")
+set @preco_de = field(@campos,"preco_de")
+set @preco_por = field(@campos,"preco_por")
+set @qtd_parcelas = field(@campos,"qtd_parcelas")
+set @valor_parcela = field(@campos,"valor_parcela")
+
+endif
+
+]%%

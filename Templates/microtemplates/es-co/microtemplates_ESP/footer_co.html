@@ -1,0 +1,207 @@
+%%[
+ Set @dataenvio = Format(Now(),"MMddyyyy")   
+ Set @emailusu = [Email Address]
+ Set @jobid = JobID
+ Set @country = IsNullDefault(Lookup("CKM_Customer", "Country", "Email Address", @emailusu),0)
+ Set @gatag = Concat(@dataenvio, "_CL")
+ Set @onda = ""
+ Set @tipo = "Blast_"
+ Set @campanha = Concat(@tipo, @onda, @dataenvio)
+ Set @subsKey = Lookup("CKM_Customer", "SubscriberKey", "Email Address", @emailusu)
+ Set @utm_sfmc = Concat(JobID, "_" , @subsKey)
+ Set @utm_padrao = "utm_source=HPOnline&utm_medium=email&utm_content="
+ Set @utm_campaign = Concat("&utm_campaign=", @campanha, "_CL&utm_sfmc=", @utm_sfmc)
+ 
+ 
+ Set @diaAtual = Format(Now(),"d") 
+ Set @mesAtual = Format(Now(),"MM") 
+ Set @anoAtual = Format(Now(),"yyyy") 
+ Set @diadasemanaAtual = Format(Now(),"dddd")
+     
+ If @mesAtual == "01" then
+  Set @mes = 'Enero'
+    ElseIf @mesAtual == "02" then
+  Set @mes = 'Febrero'
+    ElseIf @mesAtual == "03" then
+  Set @mes = 'Marzo'
+    ElseIf @mesAtual == "04" then
+  Set @mes = 'Abril'
+    ElseIf @mesAtual == "05" then
+  Set @mes = 'Mayo'
+    ElseIf @mesAtual == "06" then
+  Set @mes = 'Junio'
+    ElseIf @mesAtual == "07" then
+  Set @mes = 'Julio'
+ ElseIf @mesAtual == "08" then
+  Set @mes = 'Agosto'
+ ElseIf @mesAtual == "09" then
+  Set @mes = 'Septiembre'
+ ElseIf @mesAtual == "10" then
+  Set @mes = 'Octubre'
+ ElseIf @mesAtual == "11" then
+  Set @mes = 'Noviembre'
+ ElseIf @mesAtual == "12" then
+  Set @mes = 'Diciembre'
+    Endif
+ 
+    If @diadasemanaAtual == "Monday" then
+  Set @diaAtual = Format(DateAdd(Now(),"6","d"),"dd")         
+    ElseIf @diadasemanaAtual == "Tuesday" then
+  Set @diaAtual = Format(DateAdd(Now(),"5","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Wednesday" then
+  Set @diaAtual = Format(DateAdd(Now(),"4","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Thursday" then
+  Set @diaAtual = Format(DateAdd(Now(),"3","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Friday" then
+  Set @diaAtual = Format(DateAdd(Now(),"2","d"),"dd")    
+    ElseIf @diadasemanaAtual == "Saturday" then
+  Set @diaAtual = Format(DateAdd(Now(),"1","d"),"dd")   
+    ElseIf @diadasemanaAtual == "Sunday" then
+  Set @diaAtual = Format(DateAdd(Now(),"0","d"),"dd")    
+    Endif 
+ 
+ Set @data_validade = Concat(@diaAtual, " de ", @mes, " de ", @anoAtual)
+ Set @data_validade_2 = Format(Now(),"dd/MM/yyyy")
+ Set @tj_promocional = ""
+]%%
+                    <!-- Footer -->
+                    
+                        
+                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                <tr>
+                                    <td align="center">
+                                        <table cellspacing="0" cellpadding="0" border="0">
+                                            <tr>
+											%%[Set @utm_content = "productos"]%%
+                                                <td align="center">
+                                                    <a href="https://www.hponline.com.mx/?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/237dc553-244c-47f8-ae21-ca6cfbbece78.jpg" width="364" height="28" style="display:block;border:none;" alt="Más productos en HP Online"></a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!-- icones -->
+                                <tr>
+                                    <td align="center" valign="top" style="padding-top: 70px;">
+                                        <table cellspacing="0" cellpadding="0" border="0">
+                                            <tr>
+											%%[Set @utm_content = "empresas"]%%
+                                                <td width="26" style="font-size: 1px;line-height: 1px;"></td>
+                                                <td width="77" align="center" valign="top">
+                                                    <a href="https://www.hponline.com.mx/c/laptops/laptops-para-el-trabajo?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/db37838b-666f-47a2-864d-e0bb417243f4.jpg" width="77" height="80" style="display:block;border:none;" alt="Empresas"></a>
+                                                </td>
+												%%[Set @utm_content = "laptops"]%%
+                                                <td width="64" style="font-size: 1px;line-height: 1px;"></td>
+                                                <td width="67" align="center" valign="top">
+                                                    <a href="https://www.hponline.com.mx/c/laptops?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/0f80cf12-5412-44d4-8aec-8b532317c5b4.jpg" width="67" height="80" style="display:block;border:none;" alt="Laptops"></a>
+                                                </td>
+												%%[Set @utm_content = "all-in-one"]%%
+                                                <td width="62" style="font-size: 1px;line-height: 1px;"></td>
+                                                <td width="87" align="center" valign="top">
+                                                    <a href="https://www.hponline.com.mx/c/desktops/desktops-all-in-one?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/91449a46-7060-4c3a-9b36-2c117d411956.jpg" width="87" height="80" style="display:block;border:none;" alt="All-in-Ones"></a>
+                                                </td>
+												%%[Set @utm_content = "monitores"]%%
+                                                <td width="48" style="font-size: 1px;line-height: 1px;"></td>
+                                                <td width="76" align="center" valign="top">
+                                                    <a href="https://www.hponline.com.mx/c/monitores?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/bc20be5b-dd73-4563-ac43-bb254c6012e9.jpg" width="76" height="80" style="display:block;border:none;" alt="Monitores"></a>
+                                                </td>
+												%%[Set @utm_content = "workstations"]%%
+                                                <td width="56" style="font-size: 1px;line-height: 1px;"></td>
+                                                <td width="101" align="center" valign="top">
+                                                    <a href="https://www.hponline.com.mx/c/desktops/desktops-para-el-trabajo?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/0e7e9bf3-7cee-45ef-8528-6678d4c667bf.jpg" width="101" height="80" style="display:block;border:none;" alt="Workstations"></a>
+                                                </td>
+                                                <td width="36" style="font-size: 1px;line-height: 1px;"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" valign="top" style="padding-top: 30px;">
+                                        <table cellspacing="0" cellpadding="0" border="0">
+                                            <tr>
+											%%[Set @utm_content = "cartuchos-toners"]%%
+                                                <td width="28" style="font-size: 1px;line-height: 1px;"></td>
+                                                <td width="77" align="center" valign="top">
+                                                    <a href="https://www.hponline.com.mx/sp/buscador-de-cartuchos#/?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/a187ee91-c8fa-441b-894f-9c721f8cbb3b.jpg" width="77" height="105" style="display:block;border:none;" alt="Cartuchos y toners"></a>
+                                                </td>
+												%%[Set @utm_content = "acessorios"]%%
+                                                <td width="54" style="font-size: 1px;line-height: 1px;"></td>
+                                                <td width="86" align="center" valign="top">
+                                                    <a href="https://www.hponline.com.mx/c/accesorios?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/a57887ce-fbe5-4ba1-8fc9-c77cf4840a52.jpg" width="86" height="105" style="display:block;border:none;" alt="Accesorios"></a>
+                                                </td>
+												%%[Set @utm_content = "impresoras-all-in-one"]%%
+                                                <td width="44" style="font-size: 1px;line-height: 1px;"></td>
+                                                <td width="102" align="center" valign="top">
+                                                    <a href="https://www.hponline.com.mx/c/impresoras/multifuncionales-y-todo-en-uno?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/67c4035d-8e2a-4566-822b-15f0db69e839.jpg" width="102" height="105" style="display:block;border:none;" alt="Impresoras e All-in-ones"></a>
+                                                </td>
+												%%[Set @utm_content = "escáneres"]%%
+                                                <td width="40" style="font-size: 1px;line-height: 1px;"></td>
+                                                <td width="76" align="center" valign="top">
+                                                    <a href="https://www.hponline.com.mx/c/impresoras/escaner?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/f5129e33-7f4a-4203-bc64-9c4778d57ef9.jpg" width="76" height="105" style="display:block;border:none;" alt="Escáneres"></a>
+                                                </td>
+												%%[Set @utm_content = "prensas"]%%
+                                                <td width="25" style="font-size: 1px;line-height: 1px;"></td>
+                                                <td width="158" align="center" valign="top">
+                                                    <a href="https://www.hponline.com.mx/c/impresoras/plotters?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/07591a30-b2dc-4bb7-b2de-7c2bf592671e.jpg" width="158" height="105" style="display:block;border:none;" alt="Prensas digitales y de formato anchos"></a>
+                                                </td>
+                                                <td width="8" style="font-size: 1px;line-height: 1px;"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!-- /icones -->
+
+                                <!-- SPACE -->
+                                <tr>
+                                    <td height="60" style="font-size: 1px;line-height: 1px;"></td>
+                                </tr>
+                                <!--/ SPACE -->
+
+                                <!-- Continue conectado -->
+                                <tr>
+                                    <td align="center" valign="top">
+                                        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                            <tr>
+                                                <td align="center" height="125" style="background-color: #f7f7f7;">
+                                                    <table cellpadding="0" cellspacing="0" border="0">
+                                                        <tr>
+														%%[Set @utm_content = "permanezca-conectado"]%%
+                                                            <td width="248" align="center">
+                                                                <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/967092c1-4a48-41cb-a706-77d490254a3f.jpg" width="248" height="27" style="display:block;border:none;" alt="Permanezca conectado">
+                                                            </td>
+															%%[Set @utm_content = "facebook"]%%
+                                                            <td width="24" style="font-size: 1px;line-height: 1px;"></td>
+                                                            <td width="63" align="center">
+                                                                <a href="https://www.facebook.com/HPMexico/?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/dbb49485-5935-44fb-b4cf-096953c25899.jpg" width="63" height="63" style="display:block;border:none;" alt="facebook"></a>
+                                                            </td>
+															%%[Set @utm_content = "twitter"]%%
+                                                            <td width="38" style="font-size: 1px;line-height: 1px;"></td>
+                                                            <td width="63" align="center">
+                                                                <a href="https://twitter.com/HPMexico?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/af4742d0-f045-4da3-b97a-08f72638d435.jpg" width="63" height="63" style="display:block;border:none;" alt="twitter"></a>
+                                                            </td>
+															%%[Set @utm_content = "youtube"]%%
+                                                            <td width="38" style="font-size: 1px;line-height: 1px;"></td>
+                                                            <td width="63" align="center">
+                                                                <a href="https://www.youtube.com/user/HP?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"><img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/16/b6d4370f-a7ac-4432-a4e1-c4b78324b152.jpg" width="63" height="63" style="display:block;border:none;" alt="youtube"></a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!-- / Continue conectado -->
+
+                                <!-- SPACE -->
+                                <tr>
+                                    <td height="50" style="font-size: 1px;line-height: 1px;"></td>
+                                </tr>
+                                <!--/ SPACE -->
+
+                                
+
+                            </table>
+                        
+                    
+                    <!-- Footer -->

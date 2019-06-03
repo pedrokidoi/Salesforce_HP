@@ -1,0 +1,20 @@
+Oi, Sara.
+Tudo bem?
+
+Nessa nova fase do Microtemplate teremos algumas regrinhas novas para o recebimento dos insumosl, por isso, vou detalhar aqui os pontos que precisarão de uma atenção maior na hora do preenchimento da planilha.
+
+Os insumos deverão ser enviados numa planilha Excel(conforme modelo).
+O modelo .xlsx em anexo já contém as regrinhas de limitação de caracteres que utilizamos na 1ª fase do Microtemplate, além de ter algumas fórmulas para facilitar a vida de vocês, como: UTM_CONTENT com preenchimento automático e uma lista com o nome(exatos) dos blocos de Microtemplate disponíveis.
+
+Estou enviando em anexo também um HTML com os modelos de blocos disponíveis para que fique mais fácil a visualização na hora de preencher o Excel.
+
+REGRAS DE PREENCHIMENTO DO EXCEL:
+
+- O campo NOME_BLOCO deve ser preenchido somente com os valores disponíveis no menu da coluna, caso contrário, teremos erros e atrasos na geração do HTML através do Microtemplate;
+- O campo SKU deve ser preenchido quando precisarmos puxar alguma informação do XML de produtos.
+	Se o campo SKU não estiver preenchido, todos os insumos que preencherão o HTML, deverão estar, obrigatoriamente, na planilha enviada.
+- A impressão de desconto será somente por porcentagem;
+- O campo URL deverá vir sem UTMs, caso contrário, teremos erros e atrasos na geração do HTML através do Microtemplate;
+- Blocos que contenham mais de 1 produto de por linha, terão multiplas linhas na planilha;
+	
+	Ex: bloco_3prod_cta_azul_precopor_azul

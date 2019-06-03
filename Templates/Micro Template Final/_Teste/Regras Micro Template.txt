@@ -1,0 +1,4 @@
+- Campo "NOME_PROD" NÃO PODE conter mais tags de HTML
+	Motivo: O utm_content dos links é gerado a partir dos valores inseridos na coluna "NOME_PROD"
+
+- 

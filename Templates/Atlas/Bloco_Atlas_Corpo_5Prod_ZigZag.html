@@ -1,0 +1,211 @@
+<table cellpadding="0" cellspacing="0" align="center" width="700">
+%%[
+<!--variáveis que armazenam o vetor que pega as info da DEX_FLT_ATLAS_PAIS, retorna no máximo 5 linhas-->
+ var @vetor_atlas
+ set @vetor_atlas = LookupOrderedRows(@dex_atlas, 5, "PRICE_TO ASC","EMAILADDRESS", @EmailAddress)
+ 
+<!--contador de linhas que o vetor atlas possui-->
+ var @qtdrows_atlas
+ set @qtdrows_atlas = RowCount(@vetor_atlas)
+ 
+<!--Verifica se existem linhas no vetor do atlas-->
+ if @qtdrows_atlas > 0 then
+
+ <!--laço para ler o vetor atlas-->
+  var @cont_atlas
+  FOR @cont_atlas = 1 TO @qtdrows_atlas DO
+  
+  <!--retorna a linha do vetor de acordo com o contador-->
+   var @campos_atlas
+   set @campos_atlas = row(@vetor_atlas, @cont_atlas)
+    
+  <!--pega o valor da coluna NAME_PRODUCT do vetor de produtos-->    
+   var @titulo
+   Set @titulo = field(@campos_atlas, "NAME_PRODUCT")
+   
+    set @nome_prod = ""
+    for @i = 1 to length(@titulo) do
+      set @char = substring(@titulo,@i,1)
+      set @nome_prod = iif(empty(regexmatch(@char,'[a-zA-Z0-9-]',0)),concat(@nome_prod,' '),concat(@nome_prod,@char))      
+    next @i
+   
+  <!--retira os espaços do nome do produto para formar o utm_content-->
+   var @nome_prod_trim
+   set @nome_prod_trim = replace(@nome_prod, " ","_")
+   
+  <!--pega o valor da coluna IMG_URL do vetor de produtos-->
+   var @imagem
+   Set @imagem = field(@campos_atlas, "IMG_URL")
+   
+  <!--pega o valor da coluna PRICE_FROM do vetor de produtos-->
+   var @preco_de
+   Set @preco_de = field(@campos_atlas, "PRICE_FROM")
+
+  <!--pega o valor da coluna PRICE_TO do vetor de produtos-->
+   var @preco_por
+   Set @preco_por = field(@campos_atlas, "PRICE_TO")
+   
+  <!--pega o valor da coluna PRODUCT_URL do vetor de produtos-->
+   var @link
+   Set @link = field(@campos_atlas, "PRODUCT_URL")
+
+  <!--verifica se o link possui o identificador de código e concatena as utms dinamicas no link do produto-->
+   if not empty(@link) then
+    if indexof(@link,'?') > 0 then
+     set @separador_utm = '&'
+    else
+     set @separador_utm = '?'
+    endif
+    set @link = concat(@link, @separador_utm, @utm_padrao, @nome_prod_trim, @utm_campaign)
+   endif
+     
+  <!--INÍCIO MÁSCARA DE PREÇOS POR PAÍS-->
+   if @country == "AR" then 
+    Set @preco_de = FormatCurrency(@preco_de,@pais_moeda,2)
+    Set @preco_por = FormatCurrency(@preco_por,@pais_moeda,2)
+   elseif @country == "BR" then
+    Set @preco_de = FormatCurrency(@preco_de,@pais_moeda,2)
+    Set @preco_por = FormatCurrency(@preco_por,@pais_moeda,2)
+   elseif @country == "CL" then
+    Set @preco_de = FormatCurrency(@preco_de,@pais_moeda,0)
+    Set @preco_por = FormatCurrency(@preco_por,@pais_moeda,0)
+   elseif @country == "CO" then
+    Set @preco_de = FormatCurrency(@preco_de,@pais_moeda,0)
+    Set @preco_por = FormatCurrency(@preco_por,@pais_moeda,0)
+   elseif @country == "MX" then
+    Set @preco_de = FormatCurrency(@preco_de,@pais_moeda,2)
+    Set @preco_por = FormatCurrency(@preco_por,@pais_moeda,2)
+   elseif @country == "PE" then
+    Set @preco_de = FormatCurrency(@preco_de,@pais_moeda,2)
+    Set @preco_por = FormatCurrency(@preco_por,@pais_moeda,2)
+   endif  
+  <!--FIM CHAMADA DE MÁSCARA DE PREÇOS POR PAÍS-->
+  
+  ]%% 
+  
+  
+  
+  
+  <!--se existir produto-->
+   %%[if not empty(@link) then]%%
+
+   <!--verifica se produto deve ficar à direita ou à esquerda-->
+    %%[if Mod(@cont_atlas,2) == 0 then]%%
+    <!--Produto Direita-->
+     <tr>
+       <td align="center" style="padding: 20px 0;">
+        <table cellspacing="0" cellpadding="0" width="640" border="0">
+         <tr>
+          <td>
+           <a href="%%=RedirectTo(@link)=%%" target="_blank"><img src="%%=v(@imagem)=%%" width="340" height="340" style="display:block;border:none;">
+           </a>
+          </td>                                    
+          <td>
+           <table cellspacing="0" cellpadding="0">                                        
+            <tr>
+             <td align="center" valign="middle" height="54" style="padding: 10px;font-family:Helvetica, sans-serif; font-size:23px; color:#555555;line-height: 30px;display: block;overflow: hidden;">
+              <a href="%%=RedirectTo(@link)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:23px; color:#555555;text-decoration: none;">%%=v(@nome_prod)=%%</a>
+             </td>
+            </tr>
+            
+            <tr>
+             <td height="10" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+            </tr>
+            
+            <tr>
+             <td align="left" valign="middle" height="50" style="padding-left: 10px; font-family: Arial, sans-serif;font-size: 14px;color: #555555;line-height: 22px;display: block;overflow: hidden;">&nbsp;</td>
+            </tr>
+            
+            <tr>
+             <td align="right" valign="middle" height="40">&nbsp;</td>
+            </tr>
+            
+            
+            <tr>
+             <td align="center">&nbsp;</td>
+            </tr>
+            
+            <tr>
+             <td align="center" valign="middle" style="padding: 40px 0 0px;">
+              <table cellpadding="0" cellspacing="0">
+               <tr>
+                <td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;">
+                 <a href="%%=RedirectTo(@link)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">%%=v(@botao)=%%</a>
+                </td>
+               </tr>
+              </table>
+             </td>
+            </tr>
+            
+           </table>
+          </td>                                    
+         </tr>
+        </table>
+       </td>
+      </tr>
+    <!--Fim Produto Direita-->
+    %%[else]%%  
+    <!--Produto Esquerda-->
+     <tr>
+       <td align="center" style="padding: 20px 0;"> 
+        <table cellspacing="0" cellpadding="0" width="640" border="0">
+         <tr>                                    
+          <td>
+           <table cellspacing="0" cellpadding="0">                                        
+            <tr>
+             <td align="center" valign="middle" height="54" style="padding: 10px;font-family:Helvetica, sans-serif; font-size:23px; color:#555555;line-height: 30px;display: block;overflow: hidden;">
+              <a href="%%=RedirectTo(@link)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:23px; color:#555555;text-decoration: none;">%%=v(@nome_prod)=%%</a>
+             </td>
+            </tr>
+            
+            <tr>
+             <td height="10" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+            </tr>
+            
+            <tr>
+             <td align="left" valign="middle" height="50" style="font-family: Arial, sans-serif;font-size: 14px;color: #555555;line-height: 22px;display: block;overflow: hidden;">&nbsp;</td>
+            </tr>
+            
+            <tr>
+             <td align="right" valign="middle" height="40">&nbsp;</td>
+            </tr>  
+
+            <tr>
+             <td align="center">&nbsp;</td>
+            </tr>
+            
+            <tr>
+             <td align="center" valign="middle" style="padding: 40px 0 0px;">
+              <table cellpadding="0" cellspacing="0">
+               <tr>
+                <td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;">
+                 <a href="%%=RedirectTo(@link)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">%%=v(@botao)=%%</a>
+                </td>
+               </tr>
+              </table>
+             </td>
+            </tr>
+           </table>
+          
+          </td>
+         <td>
+          <a href="%%=RedirectTo(@link)=%%" target="_blank"><img src="%%=v(@imagem)=%%" width="340" height="340" style="display:block;border:none;"></a>
+         </td>
+        </tr>
+        </table>
+       </td>
+      </tr>
+    <!--Fim Produto Esquerda-->
+
+    %%[endif]%%  
+   <!--Fim verificação produto direita esquerda-->
+
+   %%[endif]%%
+  <!--fim verificação se produto existe-->
+
+  %%[NEXT @cont_atlas]%% 
+ <!--fim laço do vetor atlas-->
+
+ %%[endif]%%
+<!--fim verificação qtd vetor atlas-->
+</table>

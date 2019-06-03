@@ -1,0 +1,178 @@
+%%[
+ Set @dataenvio = Format(Now(),"MMddyyyy")   
+ Set @emailusu = [Email Address]
+ Set @jobid = JobID
+ Set @country = IsNullDefault(Lookup("CKM_Customer", "Country", "Email Address", @emailusu),0)
+ Set @gatag = Concat(@dataenvio, "_CL")
+ Set @onda = ""
+ Set @tipo = "Blast_"
+ Set @data = IsNullDefault(Lookup('DEX_GERAL_SEEDLIST',"EmailAddress", "EmailAddress", @emailusu), @flag)
+    If @data == "" then 
+  Set @flag = 'Launch'
+ ElseIf @data == @emailusu then  
+  Set @flag = 'Seed'
+ Endif
+ Set @campanha = Concat(@tipo, @onda, @dataenvio)
+ Set @subsKey = Lookup("DEX_DISPARO_GERAL_CL", "SubscriberKey", "EmailAddress", @emailusu)
+ Set @utm_sfmc = Concat(JobID, "_" , @subsKey, "_", @flag)
+ Set @utm_padrao = "utm_source=HPOnline&utm_medium=email&utm_content="
+ Set @utm_campaign = Concat("&utm_campaign=", @campanha, "_CL&utm_sfmc=", @utm_sfmc)
+ 
+ 
+ Set @diaAtual = Format(Now(),"d") 
+ Set @mesAtual = Format(Now(),"MM") 
+ Set @anoAtual = Format(Now(),"yyyy") 
+ Set @diadasemanaAtual = Format(Now(),"dddd")
+     
+ If @mesAtual == "01" then
+  Set @mes = 'Enero'
+    ElseIf @mesAtual == "02" then
+  Set @mes = 'Febrero'
+    ElseIf @mesAtual == "03" then
+  Set @mes = 'Marzo'
+    ElseIf @mesAtual == "04" then
+  Set @mes = 'Abril'
+    ElseIf @mesAtual == "05" then
+  Set @mes = 'Mayo'
+    ElseIf @mesAtual == "06" then
+  Set @mes = 'Junio'
+    ElseIf @mesAtual == "07" then
+  Set @mes = 'Julio'
+ ElseIf @mesAtual == "08" then
+  Set @mes = 'Agosto'
+ ElseIf @mesAtual == "09" then
+  Set @mes = 'Septiembre'
+ ElseIf @mesAtual == "10" then
+  Set @mes = 'Octubre'
+ ElseIf @mesAtual == "11" then
+  Set @mes = 'Noviembre'
+ ElseIf @mesAtual == "12" then
+  Set @mes = 'Diciembre'
+    Endif
+ 
+    If @diadasemanaAtual == "Monday" then
+  Set @diaAtual = Format(DateAdd(Now(),"6","d"),"dd")         
+    ElseIf @diadasemanaAtual == "Tuesday" then
+  Set @diaAtual = Format(DateAdd(Now(),"5","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Wednesday" then
+  Set @diaAtual = Format(DateAdd(Now(),"4","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Thursday" then
+  Set @diaAtual = Format(DateAdd(Now(),"3","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Friday" then
+  Set @diaAtual = Format(DateAdd(Now(),"2","d"),"dd")    
+    ElseIf @diadasemanaAtual == "Saturday" then
+  Set @diaAtual = Format(DateAdd(Now(),"1","d"),"dd")   
+    ElseIf @diadasemanaAtual == "Sunday" then
+  Set @diaAtual = Format(DateAdd(Now(),"0","d"),"dd")    
+    Endif 
+ 
+ Set @data_validade = Concat(@diaAtual, " de ", @mes, " de ", @anoAtual)
+ Set @data_validade_2 = Format(Now(),"dd/MM/yyyy")
+ Set @tj_promocional = ""
+]%%
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>HP</title>
+ <style>%%=ContentBlockByName("Content Builder\my contents\COMPONENTS\STYLE\CL_STYLE")=%%</style>
+</head>
+
+<body bgcolor="#f0f0f0">
+  
+  <!-- Rockin Tags Pmweb / SalesForce -->
+%%[
+ Set @mv = IsNullDefault(Lookup("CKM_Customer", "SubscriberKey", "Email Address", [Email Address]),0)
+ Set @uc = Concat(@dataenvio, "_AR")
+ Set @pmweb_pixel = Concat(
+  "https://df.pmweb.com.br/i?aid=PM-RIXAE5&cid=0&sid=0&mk=sfid&mv=", @mv,
+  "&us=HPOnline&um=email&uc=", @uc,
+  "&rl=", JobID,
+  "&sd=", Format(Now(),"yyyyMMddy"),
+  "&url=", view_email_url
+ )
+]%%
+<img alt="" height="1" width="1" src="%%=v(@pmweb_pixel)=%%">
+<!-- Rockin Tags Pmweb / SalesForce -->
+  
+
+<table width="100%" cellspacing="0" cellpadding="0" align="center" bgcolor="#f0f0f0">
+ <tr>
+  <td valign="top">
+     
+   <!-- BEGIN PRE HEADER SECTION-->  
+   %%=ContentBlockByName("Content Builder\my contents\COMPONENTS\PRE_HEADER\CL_PRE_HEADER")=%%
+   <!-- END PRE HEADER SECTION --> 
+      
+      
+   <table width="600" cellspacing="0" cellpadding="0" align="center" class="resize" bgcolor="#FFFFFF" style="box-shadow: 0px 1px 2px #c7c7c7;-webkit-box-shadow: 0px 1px 2px #c7c7c7; -moz-box-shadow: 0px 1px 2px #c7c7c7; -ms-box-shadow: 0px 1px 2px #c7c7c7; -o-box-shadow: 0px 1px 2px #c7c7c7;">
+   
+<!--------------------------------------------------------------- BEGIN DESTAQUE ACCENTURE HTML ------------------------------------------------------------>     
+
+
+ <tr>
+  %%[Set @utm_content = "principal-15-cr0002la-Z3700-funda"]%%<td>
+   <a href="https://www.hponline.cl/p/notebook-hp-pavilion-x360-15-cr0002la-mouse-hp-z3700-funda-hp-chroma-plateado-x0bigs?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"
+    onmouseover="window.status='%%=v(@utm_content)=%%';  return true;"
+    onmouseout="window.status='';  return true;">
+    <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/7b31d1db-d173-4097-81e0-cf054e062b75.jpg" width="600" height="574" class="resize" style="display:block;" border="0" alt="%%=v(@utm_content)=%%"></a></td>
+ </tr>
+ <tr>
+  %%[Set @utm_content = "22-c004lamasaudifonos"]%%<td>
+   <a href="https://www.hponline.cl/p/all-in-one-hp-22-c004la-auricular-hp-blanco-oqmrzw?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"
+    onmouseover="window.status='%%=v(@utm_content)=%%';  return true;"
+    onmouseout="window.status='';  return true;">
+    <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/1e99be8d-ffd0-4016-b64e-04d70b3ad158.jpg" width="600" height="228" class="resize" style="display:block;" border="0" alt="%%=v(@utm_content)=%%"></a></td>
+ </tr>
+ <tr>
+  %%[Set @utm_content = "15-cw0005lamasz3700"]%%<td>
+   <a href="https://www.hponline.cl/p/notebook-hp-pavilion-15-cw0005la-mouse-inala-mbrico-hp-z3700-lfk30c?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"
+    onmouseover="window.status='%%=v(@utm_content)=%%';  return true;"
+    onmouseout="window.status='';  return true;">
+    <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/d2327c56-b26c-4e5a-9973-6b93a9211553.jpg" width="600" height="220" class="resize" style="display:block;" border="0" alt="%%=v(@utm_content)=%%"></a></td>
+ </tr>
+ <tr>
+  %%[Set @utm_content = "24-e004"]%%<td>
+   <a href="https://www.hponline.cl/p/desktop-hp-24-e004-s437f4?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"
+    onmouseover="window.status='%%=v(@utm_content)=%%';  return true;"
+    onmouseout="window.status='';  return true;">
+    <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/c6ee9bab-4db2-4c8d-b0ad-47c9ff4fa0cc.jpg" width="600" height="265" class="resize" style="display:block;" border="0" alt="%%=v(@utm_content)=%%"></a></td>
+ </tr>
+ <tr>
+  %%[Set @utm_content = "pie-Altavoz"]%%<td>
+   <a href="https://www.hponline.cl/p/altavoz-hp-400-con-bluetooth-negro-x0bj9e?%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"
+    onmouseover="window.status='%%=v(@utm_content)=%%';  return true;"
+    onmouseout="window.status='';  return true;">
+    <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/d00f01c4-14d8-4fb2-8776-2d508642005f.jpg" width="600" height="257" class="resize" style="display:block;" border="0" alt="%%=v(@utm_content)=%%"></a></td>
+ </tr>
+ <tr>
+  <td>
+   <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/222efad5-1c92-4c52-bb6d-38f6c3b1ddeb.jpg" width="600" class="resize" style="display:block;" height="2" alt=""></td>
+ </tr>
+
+
+<!------------------------------------------------------------ END DESTAQUE ACCENTURE HTML ------------------------------------------------------------>       
+    
+
+   </table>
+  </td>
+ </tr>
+    <tr>
+     <td valign="top" bgcolor="#FFFFFF">
+      <!-- BEGIN LOWNAV SECTION-->  
+      %%=ContentBlockByName("Content Builder\my contents\COMPONENTS\Lownav\CL_LOWNAV_SECTION")=%%
+      <!-- END LOWNAV SECTION --> 
+     </td>
+    </tr>
+ 
+    <!-- BEGIN TJ FOOTER SECTION-->  
+    %%=ContentBlockByName("Content Builder\my contents\COMPONENTS\TJ_FOOTER\CL_TJ_FOOTER")=%%
+    <!-- END TJ FOOTER SECTION --> 
+
+</table> 
+<custom name="opencounter" type="tracking">
+</body>
+</html>

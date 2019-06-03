@@ -1,0 +1,1201 @@
+<tr>
+<td>
+<table cellpadding="0" cellspacing="0" align="center" width="700">
+
+<tbody>
+
+
+<!-- ---------------------------------------------Linha 1 - Banner Principal-------------------------------------------- -->
+<tr>
+<td align="center">
+<table cellspacing="0" cellpadding="0" width="100%">
+
+<!--chama o bloco de ampscript para dinamização e validação de variáveis-->
+
+
+%%[
+
+<!--chamada de dados com ordenação ascendente-->
+set @dados = isnulldefault(lookuporderedrows("dex_co_microtemplate",8,"posicion asc","fecha_envio", @data_mt ,"campana", @campanha_mt), "")
+
+<!--verifica se existem dados correspondentes na dex-->
+if (rowcount(@dados) > 0) then
+
+<!--dados da linha referenciada pela variavel cont-->
+
+set @campos = row(@dados, 1)
+set @nome_prod = field(@campos, "nombre_prod")
+set @descricao_prod = field(@campos, "descripcion_prod")
+set @url_img = field(@campos, "url_img")
+set @url = field(@campos, "url")
+set @desconto = field(@campos, "descuento")
+set @preco_de = field(@campos, "precio_de")
+set @preco_por = field(@campos, "precio_por")
+set @qtd_parcelas = field(@campos, "ctd_cuotas")
+set @valor_parcela = field(@campos, "valor_cuota")
+set @utm_content = field(@campos, "utm_content")
+
+endif
+
+<!-- verifica se a url contém ?. Se tiver, o separador começará com & para que não haja quebra na utm-->
+
+if indexof(@url,'?') > 0 then
+set @separador_utm = '&'
+else
+set @separador_utm = '?'
+endif
+
+set @url_final = concat(@url, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+
+]%%
+
+
+
+<tr>
+<td align="center">
+
+
+
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank"><img src="%%=v(@url_img)=%%" alt="%%=v(@nome_prod)=%%" style="display:block;border:none;" /></a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<!-- ---------------------------------------------/Linha 1 - Banner Principal-------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+
+<!-- ---------------------------------------------Linha 2 - 2 Produtos--------------------------------------------- -->
+
+<tr>
+<td align="center" style="padding: 30px 0;">
+<table cellpadding="0" cellspacing="0" border="0" width="640">
+<tr>
+<!-- Prod1 - Linha -->
+
+<!--chama o bloco de ampscript para dinamização e validação de variáveis-->
+
+%%[
+
+<!--chamada de dados com ordenação ascendente-->
+set @dados = isnulldefault(lookuporderedrows("dex_co_microtemplate",8,"posicion asc","fecha_envio", @data_mt ,"campana", @campanha_mt), "")
+
+<!--verifica se existem dados correspondentes na dex-->
+if (rowcount(@dados) > 0) then
+
+<!--dados da linha referenciada pela variavel cont-->
+
+
+set @campos = row(@dados, 2)
+set @nome_prod = field(@campos, "nombre_prod")
+set @descricao_prod = field(@campos, "descripcion_prod")
+set @url_img = field(@campos, "url_img")
+set @url = field(@campos, "url")
+set @desconto = field(@campos, "descuento")
+set @preco_de = field(@campos, "precio_de")
+set @preco_por = field(@campos, "precio_por")
+set @qtd_parcelas = field(@campos, "ctd_cuotas")
+set @valor_parcela = field(@campos, "valor_cuota")
+set @utm_content = field(@campos, "utm_content")
+
+endif
+
+<!-- verifica se a url contém ?. Se tiver, o separador começará com & para que não haja quebra na utm-->
+
+if indexof(@url,'?') > 0 then
+set @separador_utm = '&'
+else
+set @separador_utm = '?'
+endif
+
+set @url_final = concat(@url, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+
+]%%
+
+
+
+<td width="315" align="center">
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td height="60" align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 23px;color: #555555;line-height: 30px;display: block;overflow: hidden;">%%=v(@nome_prod)=%%</td>
+</tr>
+<tr>
+<td height="20" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+</tr>
+
+
+
+
+<tr>
+<td height="50" align="left" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #555555;line-height: 22px;display: block;overflow: hidden;">%%=v(@descricao_prod)=%%</td>
+</tr>
+
+
+
+
+
+<!--verifica se a coluna de desconto foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if Empty(@desconto) then]%%
+<tr>
+<td align="right" valign="middle" height="40">
+<table cellspacing="0" cellpadding="0" height="30" width="60" style="background-color:#ffffff;">
+<tr>
+<td align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;font-weight: bold;">&nbsp;</td>
+</tr>
+</table>
+</td>
+</tr>
+
+%%[else]%%
+
+<tr>
+<td align="right" valign="middle" height="40">
+<table cellspacing="0" cellpadding="0" height="30" width="60" style="background-color:#079cdd;">
+<tr>
+<td align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;font-weight: bold;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;text-decoration: none;">-%%=v(@desconto)=%%%</a></td>
+</tr>
+</table>
+</td>
+</tr>
+%%[endif]%%
+<!-- /fim validação desconto--> 
+
+
+
+
+<tr>
+<td align="center">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank"><img src="%%=v(@url_img)=%%" style="display:block;border:none;" width="203" height="203" alt="%%=v(@nome_prod)=%%" /></a>
+</td>
+</tr>
+
+<tr>
+<td align="center" valign="middle" height="40">
+<table cellpadding="0" cellspacing="0">
+<tr>
+
+<!--verifica se a coluna de preco_de foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if empty(@preco_de) then]%%
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through;"></td>
+%%[else]%%
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through; text-decoration: none;">$ %%=v(@preco_de)=%% </a>
+</td>
+%%[endif]%%
+<!-- /fim validação preço de-->
+
+
+
+<td width="10" style="font-size: 1px; line-height: 1px;"></td>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444; text-decoration: none;">$ %%=v(@preco_por)=%%</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+
+
+<tr>
+<td align="center" height="35">
+<table cellspacing="0" cellpadding="0">         
+
+
+<!--verifica se a coluna de parcelamento foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if empty(@qtd_parcelas) then]%%
+<tr>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;">
+&nbsp;
+</td>
+</tr>
+%%[else]%%
+<tr>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;text-decoration: none;">o hasta %%=v(@qtd_parcelas)=%%x de $ %%=v(@valor_parcela)=%% <br /> sin intereses</a>
+</td>
+</tr>
+%%[endif]%%
+<!-- /fim validação parcelamento-->
+
+
+
+</table>
+</td>
+</tr> 
+
+
+
+
+<tr>
+<td align="center" valign="middle" style="padding: 40px 0 0px;">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">Comprar ahora</a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<!-- /Prod1 - Linha -->
+
+
+
+
+<td width="70" style="font-size: 1px;line-height: 1px;"></td>
+
+<!-- Prod2 - Linha -->
+
+<!--chama o bloco de ampscript para dinamização e validação de variáveis-->
+
+
+
+%%[
+
+<!--chamada de dados com ordenação ascendente-->
+set @dados = isnulldefault(lookuporderedrows("dex_co_microtemplate",8,"posicion asc","fecha_envio", @data_mt ,"campana", @campanha_mt), "")
+
+<!--verifica se existem dados correspondentes na dex-->
+if (rowcount(@dados) > 0) then
+
+<!--dados da linha referenciada pela variavel cont-->
+
+
+set @campos = row(@dados, 3)
+set @nome_prod = field(@campos, "nombre_prod")
+set @descricao_prod = field(@campos, "descripcion_prod")
+set @url_img = field(@campos, "url_img")
+set @url = field(@campos, "url")
+set @desconto = field(@campos, "descuento")
+set @preco_de = field(@campos, "precio_de")
+set @preco_por = field(@campos, "precio_por")
+set @qtd_parcelas = field(@campos, "ctd_cuotas")
+set @valor_parcela = field(@campos, "valor_cuota")
+set @utm_content = field(@campos, "utm_content")
+
+endif
+
+<!-- verifica se a url contém ?. Se tiver, o separador começará com & para que não haja quebra na utm-->
+
+if indexof(@url,'?') > 0 then
+set @separador_utm = '&'
+else
+set @separador_utm = '?'
+endif
+
+set @url_final = concat(@url, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+
+]%%
+
+
+
+<td width="315" align="center">
+
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td height="60" align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 23px;color: #555555;line-height: 30px;display: block;overflow: hidden;">%%=v(@nome_prod)=%%</td>
+</tr>
+<tr>
+<td height="20" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+</tr>
+<tr>
+<td height="50" align="left" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #555555;line-height: 22px;display: block;overflow: hidden;">%%=v(@descricao_prod)=%%</td>
+</tr>
+
+
+
+<!--verifica se a coluna de desconto foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if Empty(@desconto) then]%%
+<tr>
+<td align="right" valign="middle" height="40">
+<table cellspacing="0" cellpadding="0" height="30" width="60" style="background-color:#ffffff;">
+<tr>
+<td align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;font-weight: bold;">&nbsp;</td>
+</tr>
+</table>
+</td>
+</tr>
+
+%%[else]%%
+
+<tr>
+<td align="right" valign="middle" height="40">
+<table cellspacing="0" cellpadding="0" height="30" width="60" style="background-color:#079cdd;">
+<tr>
+<td align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;font-weight: bold;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;text-decoration: none;">-%%=v(@desconto)=%%%</a></td>
+</tr>
+</table>
+</td>
+</tr>
+%%[endif]%%
+<!-- /fim validação desconto-->
+
+
+
+<tr>
+<td align="center">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank"><img src="%%=v(@url_img)=%%" style="display:block;border:none;" width="203" height="203" alt="%%=v(@nome_prod)=%%" /></a>
+</td>
+</tr>                                            
+
+<tr>
+<td align="center" valign="middle" height="40">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<!--verifica se a coluna de preco_de foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if empty(@preco_de) then]%%
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through;"></td>
+%%[else]%%
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through; text-decoration: none;">$ %%=v(@preco_de)=%% </a>
+</td>
+%%[endif]%%
+<!-- /fim validação preço de-->
+
+<td width="10" style="font-size: 1px; line-height: 1px;"></td>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444; text-decoration: none;">$ %%=v(@preco_por)=%%</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td align="center" height="35">
+<table cellspacing="0" cellpadding="0">         
+<!--verifica se a coluna de parcelamento foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if empty(@qtd_parcelas) then]%%
+<tr>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;">
+&nbsp;
+</td>
+</tr>
+%%[else]%%
+<tr>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;text-decoration: none;">o hasta %%=v(@qtd_parcelas)=%%x de $ %%=v(@valor_parcela)=%% <br /> sin intereses</a>
+</td>
+</tr>
+%%[endif]%%
+<!-- /fim validação parcelamento-->
+</table>
+</td>
+</tr> 
+<tr>
+<td align="center" valign="middle" style="padding: 40px 0 0px;">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">Comprar ahora</a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<!-- /Prod2 - Linha -->
+
+</tr>
+</table>
+</td>
+</tr>
+<!-- ---------------------------------------------/Linha 2 - 2 Produtos--------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+
+<!-- ---------------------------------------------Linha 3 - 2 Produtos--------------------------------------------- -->
+
+<tr>
+<td align="center" style="padding: 30px 0;">
+<table cellpadding="0" cellspacing="0" border="0" width="640">
+<tr>
+<!-- Prod1 - Linha -->
+
+<!--chama o bloco de ampscript para dinamização e validação de variáveis-->
+
+
+
+%%[
+
+<!--chamada de dados com ordenação ascendente-->
+set @dados = isnulldefault(lookuporderedrows("dex_co_microtemplate",8,"posicion asc","fecha_envio", @data_mt ,"campana", @campanha_mt), "")
+
+<!--verifica se existem dados correspondentes na dex-->
+if (rowcount(@dados) > 0) then
+
+<!--dados da linha referenciada pela variavel cont-->
+
+
+set @campos = row(@dados, 4)
+set @nome_prod = field(@campos, "nombre_prod")
+set @descricao_prod = field(@campos, "descripcion_prod")
+set @url_img = field(@campos, "url_img")
+set @url = field(@campos, "url")
+set @desconto = field(@campos, "descuento")
+set @preco_de = field(@campos, "precio_de")
+set @preco_por = field(@campos, "precio_por")
+set @qtd_parcelas = field(@campos, "ctd_cuotas")
+set @valor_parcela = field(@campos, "valor_cuota")
+set @utm_content = field(@campos, "utm_content")
+
+endif
+
+<!-- verifica se a url contém ?. Se tiver, o separador começará com & para que não haja quebra na utm-->
+
+if indexof(@url,'?') > 0 then
+set @separador_utm = '&'
+else
+set @separador_utm = '?'
+endif
+
+set @url_final = concat(@url, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+
+]%%
+
+
+
+
+<td width="315" align="center">
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td height="60" align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 23px;color: #555555;line-height: 30px;display: block;overflow: hidden;">%%=v(@nome_prod)=%%</td>
+</tr>
+<tr>
+<td height="20" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+</tr>
+
+
+
+
+<tr>
+<td height="50" align="left" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #555555;line-height: 22px;display: block;overflow: hidden;">%%=v(@descricao_prod)=%%</td>
+</tr>
+
+
+
+
+
+<!--verifica se a coluna de desconto foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if Empty(@desconto) then]%%
+<tr>
+<td align="right" valign="middle" height="40">
+<table cellspacing="0" cellpadding="0" height="30" width="60" style="background-color:#ffffff;">
+<tr>
+<td align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;font-weight: bold;">&nbsp;</td>
+</tr>
+</table>
+</td>
+</tr>
+
+%%[else]%%
+
+<tr>
+<td align="right" valign="middle" height="40">
+<table cellspacing="0" cellpadding="0" height="30" width="60" style="background-color:#079cdd;">
+<tr>
+<td align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;font-weight: bold;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;text-decoration: none;">-%%=v(@desconto)=%%%</a></td>
+</tr>
+</table>
+</td>
+</tr>
+%%[endif]%%
+<!-- /fim validação desconto--> 
+
+
+
+
+<tr>
+<td align="center">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank"><img src="%%=v(@url_img)=%%" style="display:block;border:none;" width="203" height="203" alt="%%=v(@nome_prod)=%%" /></a>
+</td>
+</tr>
+
+<tr>
+<td align="center" valign="middle" height="40">
+<table cellpadding="0" cellspacing="0">
+<tr>
+
+<!--verifica se a coluna de preco_de foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if empty(@preco_de) then]%%
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through;"></td>
+%%[else]%%
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through; text-decoration: none;">$ %%=v(@preco_de)=%% </a>
+</td>
+%%[endif]%%
+<!-- /fim validação preço de-->
+
+
+
+<td width="10" style="font-size: 1px; line-height: 1px;"></td>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444; text-decoration: none;">$ %%=v(@preco_por)=%%</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+
+
+<tr>
+<td align="center" height="35">
+<table cellspacing="0" cellpadding="0">         
+
+
+<!--verifica se a coluna de parcelamento foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if empty(@qtd_parcelas) then]%%
+<tr>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;">
+&nbsp;
+</td>
+</tr>
+%%[else]%%
+<tr>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;text-decoration: none;">o hasta %%=v(@qtd_parcelas)=%%x de $ %%=v(@valor_parcela)=%% <br /> sin intereses</a>
+</td>
+</tr>
+%%[endif]%%
+<!-- /fim validação parcelamento-->
+
+
+
+</table>
+</td>
+</tr> 
+
+
+
+
+<tr>
+<td align="center" valign="middle" style="padding: 40px 0 0px;">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">Comprar ahora</a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<!-- /Prod1 - Linha -->
+
+
+
+
+<td width="70" style="font-size: 1px;line-height: 1px;"></td>
+
+<!-- Prod2 - Linha -->
+
+<!--chama o bloco de ampscript para dinamização e validação de variáveis-->
+
+%%[
+
+<!--chamada de dados com ordenação ascendente-->
+set @dados = isnulldefault(lookuporderedrows("dex_co_microtemplate",8,"posicion asc","fecha_envio", @data_mt ,"campana", @campanha_mt), "")
+
+<!--verifica se existem dados correspondentes na dex-->
+if (rowcount(@dados) > 0) then
+
+<!--dados da linha referenciada pela variavel cont-->
+
+
+set @campos = row(@dados, 5)
+set @nome_prod = field(@campos, "nombre_prod")
+set @descricao_prod = field(@campos, "descripcion_prod")
+set @url_img = field(@campos, "url_img")
+set @url = field(@campos, "url")
+set @desconto = field(@campos, "descuento")
+set @preco_de = field(@campos, "precio_de")
+set @preco_por = field(@campos, "precio_por")
+set @qtd_parcelas = field(@campos, "ctd_cuotas")
+set @valor_parcela = field(@campos, "valor_cuota")
+set @utm_content = field(@campos, "utm_content")
+
+endif
+
+<!-- verifica se a url contém ?. Se tiver, o separador começará com & para que não haja quebra na utm-->
+
+if indexof(@url,'?') > 0 then
+set @separador_utm = '&'
+else
+set @separador_utm = '?'
+endif
+
+set @url_final = concat(@url, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+
+]%%
+
+
+
+
+<td width="315" align="center">
+
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td height="60" align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 23px;color: #555555;line-height: 30px;display: block;overflow: hidden;">%%=v(@nome_prod)=%%</td>
+</tr>
+<tr>
+<td height="20" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+</tr>
+<tr>
+<td height="50" align="left" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #555555;line-height: 22px;display: block;overflow: hidden;">%%=v(@descricao_prod)=%%</td>
+</tr>
+
+
+
+<!--verifica se a coluna de desconto foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if Empty(@desconto) then]%%
+<tr>
+<td align="right" valign="middle" height="40">
+<table cellspacing="0" cellpadding="0" height="30" width="60" style="background-color:#ffffff;">
+<tr>
+<td align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;font-weight: bold;">&nbsp;</td>
+</tr>
+</table>
+</td>
+</tr>
+
+%%[else]%%
+
+<tr>
+<td align="right" valign="middle" height="40">
+<table cellspacing="0" cellpadding="0" height="30" width="60" style="background-color:#079cdd;">
+<tr>
+<td align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;font-weight: bold;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;text-decoration: none;">-%%=v(@desconto)=%%%</a></td>
+</tr>
+</table>
+</td>
+</tr>
+%%[endif]%%
+<!-- /fim validação desconto-->
+
+
+
+<tr>
+<td align="center">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank"><img src="%%=v(@url_img)=%%" style="display:block;border:none;" width="203" height="203" alt="%%=v(@nome_prod)=%%" /></a>
+</td>
+</tr>                                            
+
+<tr>
+<td align="center" valign="middle" height="40">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<!--verifica se a coluna de preco_de foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if empty(@preco_de) then]%%
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through;"></td>
+%%[else]%%
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through; text-decoration: none;">$ %%=v(@preco_de)=%% </a>
+</td>
+%%[endif]%%
+<!-- /fim validação preço de-->
+
+<td width="10" style="font-size: 1px; line-height: 1px;"></td>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444; text-decoration: none;">$ %%=v(@preco_por)=%%</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td align="center" height="35">
+<table cellspacing="0" cellpadding="0">         
+<!--verifica se a coluna de parcelamento foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if empty(@qtd_parcelas) then]%%
+<tr>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;">
+&nbsp;
+</td>
+</tr>
+%%[else]%%
+<tr>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;text-decoration: none;">o hasta %%=v(@qtd_parcelas)=%%x de $ %%=v(@valor_parcela)=%% <br /> sin intereses</a>
+</td>
+</tr>
+%%[endif]%%
+<!-- /fim validação parcelamento-->
+</table>
+</td>
+</tr> 
+<tr>
+<td align="center" valign="middle" style="padding: 40px 0 0px;">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">Comprar ahora</a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<!-- /Prod2 - Linha -->
+
+</tr>
+</table>
+</td>
+</tr>
+<!-- ---------------------------------------------/Linha 3 - 2 Produtos--------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ---------------------------------------------Linha 4 - 2 Produtos--------------------------------------------- -->
+
+<tr>
+<td align="center" style="padding: 30px 0;">
+<table cellpadding="0" cellspacing="0" border="0" width="640">
+<tr>
+<!-- Prod1 - Linha -->
+
+<!--chama o bloco de ampscript para dinamização e validação de variáveis-->
+
+
+
+%%[
+
+<!--chamada de dados com ordenação ascendente-->
+set @dados = isnulldefault(lookuporderedrows("dex_co_microtemplate",8,"posicion asc","fecha_envio", @data_mt ,"campana", @campanha_mt), "")
+
+<!--verifica se existem dados correspondentes na dex-->
+if (rowcount(@dados) > 0) then
+
+<!--dados da linha referenciada pela variavel cont-->
+
+
+set @campos = row(@dados, 6)
+set @nome_prod = field(@campos, "nombre_prod")
+set @descricao_prod = field(@campos, "descripcion_prod")
+set @url_img = field(@campos, "url_img")
+set @url = field(@campos, "url")
+set @desconto = field(@campos, "descuento")
+set @preco_de = field(@campos, "precio_de")
+set @preco_por = field(@campos, "precio_por")
+set @qtd_parcelas = field(@campos, "ctd_cuotas")
+set @valor_parcela = field(@campos, "valor_cuota")
+set @utm_content = field(@campos, "utm_content")
+
+endif
+
+<!-- verifica se a url contém ?. Se tiver, o separador começará com & para que não haja quebra na utm-->
+
+if indexof(@url,'?') > 0 then
+set @separador_utm = '&'
+else
+set @separador_utm = '?'
+endif
+
+set @url_final = concat(@url, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+
+]%%
+
+
+
+
+<td width="315" align="center">
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td height="60" align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 23px;color: #555555;line-height: 30px;display: block;overflow: hidden;">%%=v(@nome_prod)=%%</td>
+</tr>
+<tr>
+<td height="20" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+</tr>
+
+
+
+
+<tr>
+<td height="50" align="left" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #555555;line-height: 22px;display: block;overflow: hidden;">%%=v(@descricao_prod)=%%</td>
+</tr>
+
+
+
+
+
+<!--verifica se a coluna de desconto foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if Empty(@desconto) then]%%
+<tr>
+<td align="right" valign="middle" height="40">
+<table cellspacing="0" cellpadding="0" height="30" width="60" style="background-color:#ffffff;">
+<tr>
+<td align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;font-weight: bold;">&nbsp;</td>
+</tr>
+</table>
+</td>
+</tr>
+
+%%[else]%%
+
+<tr>
+<td align="right" valign="middle" height="40">
+<table cellspacing="0" cellpadding="0" height="30" width="60" style="background-color:#079cdd;">
+<tr>
+<td align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;font-weight: bold;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;text-decoration: none;">-%%=v(@desconto)=%%%</a></td>
+</tr>
+</table>
+</td>
+</tr>
+%%[endif]%%
+<!-- /fim validação desconto--> 
+
+
+
+
+<tr>
+<td align="center">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank"><img src="%%=v(@url_img)=%%" style="display:block;border:none;" width="203" height="203" alt="%%=v(@nome_prod)=%%" /></a>
+</td>
+</tr>
+
+<tr>
+<td align="center" valign="middle" height="40">
+<table cellpadding="0" cellspacing="0">
+<tr>
+
+<!--verifica se a coluna de preco_de foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if empty(@preco_de) then]%%
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through;"></td>
+%%[else]%%
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through; text-decoration: none;">$ %%=v(@preco_de)=%% </a>
+</td>
+%%[endif]%%
+<!-- /fim validação preço de-->
+
+
+
+<td width="10" style="font-size: 1px; line-height: 1px;"></td>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444; text-decoration: none;">$ %%=v(@preco_por)=%%</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+
+
+<tr>
+<td align="center" height="35">
+<table cellspacing="0" cellpadding="0">         
+
+
+<!--verifica se a coluna de parcelamento foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if empty(@qtd_parcelas) then]%%
+<tr>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;">
+&nbsp;
+</td>
+</tr>
+%%[else]%%
+<tr>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;text-decoration: none;">o hasta %%=v(@qtd_parcelas)=%%x de $ %%=v(@valor_parcela)=%% <br /> sin intereses</a>
+</td>
+</tr>
+%%[endif]%%
+<!-- /fim validação parcelamento-->
+
+
+
+</table>
+</td>
+</tr> 
+
+
+
+
+<tr>
+<td align="center" valign="middle" style="padding: 40px 0 0px;">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">Comprar ahora</a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<!-- /Prod1 - Linha -->
+
+
+
+
+<td width="70" style="font-size: 1px;line-height: 1px;"></td>
+
+<!-- Prod2 - Linha -->
+
+<!--chama o bloco de ampscript para dinamização e validação de variáveis-->
+
+%%[
+
+<!--chamada de dados com ordenação ascendente-->
+set @dados = isnulldefault(lookuporderedrows("dex_co_microtemplate",8,"posicion asc","fecha_envio", @data_mt ,"campana", @campanha_mt), "")
+
+<!--verifica se existem dados correspondentes na dex-->
+if (rowcount(@dados) > 0) then
+
+<!--dados da linha referenciada pela variavel cont-->
+
+
+set @campos = row(@dados, 7)
+set @nome_prod = field(@campos, "nombre_prod")
+set @descricao_prod = field(@campos, "descripcion_prod")
+set @url_img = field(@campos, "url_img")
+set @url = field(@campos, "url")
+set @desconto = field(@campos, "descuento")
+set @preco_de = field(@campos, "precio_de")
+set @preco_por = field(@campos, "precio_por")
+set @qtd_parcelas = field(@campos, "ctd_cuotas")
+set @valor_parcela = field(@campos, "valor_cuota")
+set @utm_content = field(@campos, "utm_content")
+
+endif
+
+<!-- verifica se a url contém ?. Se tiver, o separador começará com & para que não haja quebra na utm-->
+
+if indexof(@url,'?') > 0 then
+set @separador_utm = '&'
+else
+set @separador_utm = '?'
+endif
+
+set @url_final = concat(@url, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+
+]%%
+
+
+
+
+<td width="315" align="center">
+
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td height="60" align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 23px;color: #555555;line-height: 30px;display: block;overflow: hidden;">%%=v(@nome_prod)=%%</td>
+</tr>
+<tr>
+<td height="20" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+</tr>
+<tr>
+<td height="50" align="left" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #555555;line-height: 22px;display: block;overflow: hidden;">%%=v(@descricao_prod)=%%</td>
+</tr>
+
+
+
+<!--verifica se a coluna de desconto foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if Empty(@desconto) then]%%
+<tr>
+<td align="right" valign="middle" height="40">
+<table cellspacing="0" cellpadding="0" height="30" width="60" style="background-color:#ffffff;">
+<tr>
+<td align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;font-weight: bold;">&nbsp;</td>
+</tr>
+</table>
+</td>
+</tr>
+
+%%[else]%%
+
+<tr>
+<td align="right" valign="middle" height="40">
+<table cellspacing="0" cellpadding="0" height="30" width="60" style="background-color:#079cdd;">
+<tr>
+<td align="center" valign="middle" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;font-weight: bold;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family: Arial, sans-serif;font-size: 14px;color: #ffffff;line-height: 22px;text-decoration: none;">-%%=v(@desconto)=%%%</a></td>
+</tr>
+</table>
+</td>
+</tr>
+%%[endif]%%
+<!-- /fim validação desconto-->
+
+
+
+<tr>
+<td align="center">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank"><img src="%%=v(@url_img)=%%" style="display:block;border:none;" width="203" height="203" alt="%%=v(@nome_prod)=%%" /></a>
+</td>
+</tr>                                            
+
+<tr>
+<td align="center" valign="middle" height="40">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<!--verifica se a coluna de preco_de foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if empty(@preco_de) then]%%
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through;"></td>
+%%[else]%%
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:19px; color:#888888;text-decoration: line-through; text-decoration: none;">$ %%=v(@preco_de)=%% </a>
+</td>
+%%[endif]%%
+<!-- /fim validação preço de-->
+
+<td width="10" style="font-size: 1px; line-height: 1px;"></td>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:26px; color:#444444; text-decoration: none;">$ %%=v(@preco_por)=%%</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td align="center" height="35">
+<table cellspacing="0" cellpadding="0">         
+<!--verifica se a coluna de parcelamento foi preenchida. Se a mesma estiver vazia, a TR formatada não será exibida-->
+%%[if empty(@qtd_parcelas) then]%%
+<tr>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;">
+&nbsp;
+</td>
+</tr>
+%%[else]%%
+<tr>
+<td align="center" valign="middle" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:15px; color:#555555;text-decoration: none;">o hasta %%=v(@qtd_parcelas)=%%x de $ %%=v(@valor_parcela)=%% <br /> sin intereses</a>
+</td>
+</tr>
+%%[endif]%%
+<!-- /fim validação parcelamento-->
+</table>
+</td>
+</tr> 
+<tr>
+<td align="center" valign="middle" style="padding: 40px 0 0px;">
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td align="center" width="218" height="52" style="background-color: #079cdd;font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;"><a href="%%=RedirectTo(@url_final)=%%" target="_blank" style="font-family:Helvetica, sans-serif; font-size:20px; color:#ffffff;text-decoration: none;display: block;">Comprar ahora</a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+<!-- /Prod2 - Linha -->
+
+</tr>
+</table>
+</td>
+</tr>
+<!-- ---------------------------------------------/Linha 4 - 2 Produtos--------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ---------------------------------------------Linha 5 - Banner Promo-------------------------------------------- -->
+<tr>
+<td align="center">
+
+<!--chama o bloco de ampscript para dinamização e validação de variáveis-->
+
+%%[
+
+<!--chamada de dados com ordenação ascendente-->
+set @dados = isnulldefault(lookuporderedrows("dex_co_microtemplate",8,"posicion asc","fecha_envio", @data_mt ,"campana", @campanha_mt), "")
+
+<!--verifica se existem dados correspondentes na dex-->
+if (rowcount(@dados) > 0) then
+
+<!--dados da linha referenciada pela variavel cont-->
+
+
+set @campos = row(@dados, 8)
+set @nome_prod = field(@campos, "nombre_prod")
+set @descricao_prod = field(@campos, "descripcion_prod")
+set @url_img = field(@campos, "url_img")
+set @url = field(@campos, "url")
+set @desconto = field(@campos, "descuento")
+set @preco_de = field(@campos, "precio_de")
+set @preco_por = field(@campos, "precio_por")
+set @qtd_parcelas = field(@campos, "ctd_cuotas")
+set @valor_parcela = field(@campos, "valor_cuota")
+set @utm_content = field(@campos, "utm_content")
+
+endif
+
+<!-- verifica se a url contém ?. Se tiver, o separador começará com & para que não haja quebra na utm-->
+
+if indexof(@url,'?') > 0 then
+set @separador_utm = '&'
+else
+set @separador_utm = '?'
+endif
+
+set @url_final = concat(@url, @separador_utm, @utm_padrao, @utm_content, @utm_campaign)
+
+]%%
+
+
+
+
+<table cellspacing="0" cellpadding="0" width="100%">
+<tr>
+<td align="center">
+<a href="%%=RedirectTo(@url_final)=%%" target="_blank"><img src="%%=v(@url_img)=%%" alt="%%=v(@nome_prod)=%%" style="display:block;border:none;" /></a>
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+<!-- ---------------------------------------------/Linha 5 - Banner Promo-------------------------------------------- -->
+
+
+<!-- Space -->
+<tr>
+    <td height="20" style="font-size: 1px;line-height: 1px;">&nbsp;</td>
+</tr>
+<!-- /Space -->
+
+
+
+</tbody>
+</table>
+</td>
+</tr>

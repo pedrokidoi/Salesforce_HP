@@ -1,0 +1,14 @@
+<!--chama o bloco de ampscript para dinamização-->
+%%=ContentBlockByName("Content Builder\my contents\MicroTemplate\AR\AMPscript\MT_AR_Bloco_AMP_DadosDex")=%%
+
+<!--verifica se a url contém ?. Se tiver, o separador começará com & para que não haja quebra na utm-->
+%%[
+	if indexof(@url,'?') > 0 then
+	set @separador_utm = '&'
+	else
+	set @separador_utm = '?'
+	endif
+]%%
+
+<!--incrementa a variavel do contador-->
+%%[set @cont = ADD(FormatNumber(@cont, "N"), 1)]%%

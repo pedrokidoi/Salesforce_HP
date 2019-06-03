@@ -1,0 +1,141 @@
+%%[
+
+
+<!--Email do usuário que será enviado o email-->
+var @EmailAddress 
+set @EmailAddress = [EmailAddress]
+
+<!--SubscriberKey do usuário que será enviado o email-->
+var @SubscriberKey
+Set @SubscriberKey = isnulldefault([SubscriberKey],0)
+
+<!--Data atual do envio da campanha-->
+var @dataenvio
+set @dataenvio = format(now(),"MMddyyyy")
+
+<!--Data que será usada nos avisos legais do footer-->
+var @dataValidadeFooter
+set @dataValidadeFooter = format(now(),"dd/MM/yyyy")
+
+<!--JobID do disparo da campanha usado nos links das campanhas-->
+var @jobid
+set @jobid = jobid
+
+<!--variáveis para armazenar infos da utm_campaign-->
+var @campanha
+if @flagRepique == FALSE then
+	set @campanha = concat("PRG_WelcomeCKM_", @country)
+else
+	set @campanha = concat("PRG_WelcomeCKM_Repique_", @country)
+endif
+	
+<!--variáveis utilizadas em todos os links das campanhas concatenando jobID e subskey-->
+var @utm_sfmc
+set @utm_sfmc = concat(@jobid, "_" , @SubscriberKey)
+
+<!--variável que troca o texto dos botões dos produtos-->
+var @botao
+Set @botao = "Comprar ahora"
+
+
+<!--variável que armazena o valor da utm_padrao-->
+var @utm_padrao
+Set @utm_padrao = "utm_source=HPOnline&utm_medium=email&utm_content="
+
+<!--variável para o link do banner principal-->
+var @url_banner
+set @url_banner = ""
+
+<!--estrutura ifelse para determinar campos dinâmicos de acordo com cada país-->
+if @country == "AR" then 
+ Set @pais_moeda = "es-AR"
+ set @url_banner = "https://www.hponline.com.ar"
+elseif @country == "BR" then
+ Set @pais_moeda = "pt-BR"
+ Set @botao = "Comprar agora"
+ Set @utm_padrao = "utm_source=HPNews&utm_medium=email&utm_content="
+ set @url_banner = "https://www.lojahp.com.br/"
+elseif @country == "CL" then
+ Set @pais_moeda = "es-CL"
+ set @url_banner = "https://www.hponline.cl"
+elseif @country == "CO" then
+ Set @pais_moeda = "es-CO"
+ set @url_banner = "https://www.hponline.com.co"
+elseif @country == "MX" then
+ Set @pais_moeda = "es-MX"
+ set @url_banner = "https://www.hponline.com.mx"
+elseif @country == "PE" then
+ Set @pais_moeda = "es-PE"
+ set @url_banner = "https://www.hponlinestore.com.pe"
+endif
+<!--fim ifelse que determina as variáveis de acordo com o país-->
+
+
+<!--variável que possui os valores da utm_campaign que é utilizada em todos os links-->
+var @utm_campaign
+Set @utm_campaign = Concat("&utm_campaign=", @campanha, "&utm_sfmc=", @utm_sfmc)
+
+<!--verifica se link possui indentificador de codigo-->
+if indexof(@url_banner,'?') > 0 then
+  set @identificador = '&'
+else
+  set @identificador = '?'
+endif
+
+<!--variáveis que armazenam o link do banner principal-->
+var @url_banner_principal
+Set @url_banner_principal= concat(@url_banner, @identificador, @utm_padrao, "banner_header_welcomeCKM", @utm_campaign)
+
+
+<!--código que mostra o cupom de desconto-->
+ var @array
+ set @array = LookupOrderedRows("DEX_CUPOM_BEHAVIOR",1, "DATA_INICIO ASC","PAIS", @country, "REGUA", @regua)
+  
+ if not empty(@array) then
+ 
+  var @numrows
+  set @numrows = RowCount(@array)
+ 
+  var @dtatual
+  set @dtatual = FormatDate(now(), "MM/dd/yyyy")
+ 
+  FOR @i = 1 TO @numrows DO
+   var @campos
+   set @campos = row(@array, @i)
+   
+   var @data_inicio
+   set @data_inicio = FormatDate(field(@campos, "DATA_INICIO"), "MM/dd/yyyy")
+   
+   var @data_fim
+   set @data_fim = FormatDate(field(@campos, "DATA_FIM"), "MM/dd/yyyy")  
+   
+   if (@dtatual >= @data_inicio AND @data_fim >= @dtatual) then
+   
+     var @texto_1
+     set @texto_1 = field(@campos, "TEXTO_1")
+     
+     var @texto_2
+     set @texto_2 = field(@campos, "TEXTO_2")
+     
+     var @cupom
+     set @cupom = field(@campos, "CUPOM")
+     
+     var @avisos_legais
+     set @avisos_legais = field(@campos, "AVISO")
+     
+     var @regua
+     set @regua = field(@campos, "REGUA")
+     
+     var @cuotas
+     set @cuotas = field(@campos, "CUOTAS")
+     
+     var @data_inicio_2
+     set @data_inicio_2 = FormatDate(field(@campos, "DATA_INICIO"), "MM/dd/yyyy")
+     
+     var @data_fim_2
+     set @data_fim_2 = FormatDate(field(@campos, "DATA_FIM"), "MM/dd/yyyy")  
+   endif  
+   NEXT @i
+ endif
+<!---fim código que mostra o cupom de desconto->
+]%%

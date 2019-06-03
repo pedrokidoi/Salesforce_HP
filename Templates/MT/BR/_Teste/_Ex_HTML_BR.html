@@ -1,0 +1,157 @@
+%%[
+ Set @dataenvio = Format(Now(),"MMddyyyy")   
+ Set @emailusu = [Email Address]
+ Set @jobid = JobID
+ Set @country = IsNullDefault(Lookup("CKM_Customer", "Country", "Email Address", @emailusu),0)
+ Set @gatag = Concat(@dataenvio, "_HPNews")
+ Set @onda = "INT_07102018_EXCLU_"
+ Set @tipo = "Blast_"
+Set @flag = ""
+ Set @data = IsNullDefault(Lookup('DEX_GERAL_SEEDLIST',"EmailAddress", "EmailAddress", @emailusu), @flag)
+    If @data == "" then 
+  Set @flag = 'Launch'
+ ElseIf @data == @emailusu then  
+  Set @flag = 'Seed'
+ Endif
+ Set @campanha = Concat(@tipo, @onda, @dataenvio)
+ Set @subsKey = Lookup("DEX_DISPARO_GERAL_BR", "SubscriberKey", "EmailAddress", @emailusu)
+ Set @utm_sfmc = Concat(JobID, "_" , @subsKey, "_", @flag)
+ Set @utm_padrao = "utm_source=HPNews&utm_medium=Email&utm_content="
+ Set @utm_campaign = Concat("&utm_campaign=", @campanha, "_HPNews&utm_sfmc=", @utm_sfmc)
+ 
+ 
+ Set @diaAtual = Format(Now(),"d") 
+ Set @mesAtual = Format(Now(),"MM")
+ Set @anoAtual = Format(Now(),"yyyy") 
+ Set @diadasemanaAtual = Format(Now(),"dddd")
+     
+ If @mesAtual == "01" then
+  Set @mes = 'Janeiro'
+    ElseIf @mesAtual == "02" then
+  Set @mes = 'Fevereiro'
+    ElseIf @mesAtual == "03" then
+  Set @mes = 'Março'
+    ElseIf @mesAtual == "04" then
+  Set @mes = 'Abril'
+    ElseIf @mesAtual == "05" then
+  Set @mes = 'Maio'
+    ElseIf @mesAtual == "06" then
+  Set @mes = 'Junho'
+    ElseIf @mesAtual == "07" then
+  Set @mes = 'Julho'
+ ElseIf @mesAtual == "08" then
+  Set @mes = 'Agosto'
+ ElseIf @mesAtual == "09" then
+  Set @mes = 'Setembro'
+ ElseIf @mesAtual == "10" then
+  Set @mes = 'Outubro'
+ ElseIf @mesAtual == "11" then
+  Set @mes = 'Novembro'
+ ElseIf @mesAtual == "12" then
+  Set @mes = 'Dezembro'
+    Endif
+ 
+    If @diadasemanaAtual == "Monday" then
+  Set @diaAtual = Format(DateAdd(Now(),"6","d"),"dd")         
+    ElseIf @diadasemanaAtual == "Tuesday" then
+  Set @diaAtual = Format(DateAdd(Now(),"5","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Wednesday" then
+  Set @diaAtual = Format(DateAdd(Now(),"4","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Thursday" then
+  Set @diaAtual = Format(DateAdd(Now(),"3","d"),"dd")     
+    ElseIf @diadasemanaAtual == "Friday" then
+  Set @diaAtual = Format(DateAdd(Now(),"2","d"),"dd")    
+    ElseIf @diadasemanaAtual == "Saturday" then
+  Set @diaAtual = Format(DateAdd(Now(),"1","d"),"dd")   
+    ElseIf @diadasemanaAtual == "Sunday" then
+  Set @diaAtual = Format(DateAdd(Now(),"0","d"),"dd")    
+    Endif
+ 
+ Set @data_validade = Concat(@diaAtual, " de ", @mes, " de ", @anoAtual)
+ Set @data_validade_2 = Format(Now(),"dd/MM/yyyy")
+ Set @tj_promocional = ""
+]%%
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>HP</title>
+ <style>%%=ContentBlockByName("Content Builder\my contents\COMPONENTS\STYLE\BR_STYLE")=%%</style>
+</head>
+
+<body bgcolor="#f0f0f0">
+  
+  
+
+<table width="100%" cellspacing="0" cellpadding="0" align="center" bgcolor="#f0f0f0">
+ <tr> 
+  <td valign="top">
+  
+   <!-- BEGIN LOWNAV SECTION--> 
+   %%=ContentBlockByName("Content Builder\my contents\COMPONENTS\PRE_HEADER\BR_PRE_HEADER")=%%
+   <!-- END LOWNAV SECTION -->  
+   
+   <table width="600" cellspacing="0" cellpadding="0" align="center" class="resize" bgcolor="#FFFFFF" style="box-shadow: 0px 1px 2px #c7c7c7;-webkit-box-shadow: 0px 1px 2px #c7c7c7; -moz-box-shadow: 0px 1px 2px #c7c7c7; -ms-box-shadow: 0px 1px 2px #c7c7c7; -o-box-shadow: 0px 1px 2px #c7c7c7;">
+    
+<!--------------------------------------------------------------- BEGIN DESTAQUE ACCENTURE HTML ------------------------------------------------------------>
+
+ <tr>
+  %%[Set @utm_content = "principal-246i3"]%%<td colspan="3">
+   <a href="http://www.lojahp.com.br/Informatica/Notebook/Notebook-HP-246-G6-com-Processador-Intel-Core-i5-7200U-Windows-10-Home-Single-Language-8GB-HD-1TB-HDMI-Wireless-LED-14-11790383.html?recsource=busca-int&rectype=busca-0&%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"
+    onmouseover="window.status='%%=v(@utm_content)=%%';  return true;"
+    onmouseout="window.status='';  return true;">
+    <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/5603630d-57c2-48c0-bc4a-790349599a0b.jpg" width="600" height="502" class="resize" style="display:block;" border="0" alt="%%=v(@utm_content)=%%"></a></td>
+  <!--<td rowspan="4">
+   <img src="images/Email_BR_12072018_02.jpg" width="1" height="1245" alt="">
+  </td>-->
+ </tr>
+ <tr>
+  %%[Set @utm_content = "cq17"]%%<td colspan="3">
+   <a href="http://www.lojahp.com.br/Informatica/Notebook/Notebook-Compaq-Presario-CQ17-com-Processador-Intel-Celeron-Dual-Core-Windows-10-Home-4GB-HD-500GB-Leitor-Biometrico-HDMI-Wireless-LED-14-11823286.html?recsource=busca-int&rectype=busca-0&%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"
+    onmouseover="window.status='%%=v(@utm_content)=%%';  return true;"
+    onmouseout="window.status='';  return true;">
+    <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/a7646160-59fc-4719-9602-f07f56d9f5a0.jpg" width="600" height="264" class="resize" style="display:block;" border="0" alt="%%=v(@utm_content)=%%"></a></td>
+ </tr>
+ <tr>
+  %%[Set @utm_content = "5822"]%%<td>
+   <a href="http://www.lojahp.com.br/Informatica/impressoramultifuncional/tanquedetinta/Multifuncional-Tanque-de-Tinta-HP-DeskJet-GT-5822-com-Impressora-Copiadora-Scanner-Wireless-11130516.html?recsource=busca-int&rectype=busca-0&%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"
+    onmouseover="window.status='%%=v(@utm_content)=%%';  return true;"
+    onmouseout="window.status='';  return true;">
+    <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/9fb3bb3b-19df-466f-aa28-ad5a1c7d5f8e.jpg" width="300" height="383" class="resize" style="display:block;" border="0" alt="%%=v(@utm_content)=%%"></a></td>
+  <!--<td>
+   <img src="images/Email_BR_12072018_05.jpg" width="1" height="383" alt=""></td>-->
+  %%[Set @utm_content = "2676"]%%<td>
+   <a href="http://www.lojahp.com.br/Informatica/impressoramultifuncional/JatodeTinta/Multifuncional-HP-DeskJet-Ink-Advantage-2676-com-Impressora-Copiadora-Scanner-Wireless-11549796.html?recsource=busca-int&rectype=busca-0&%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"
+    onmouseover="window.status='%%=v(@utm_content)=%%';  return true;"
+    onmouseout="window.status='';  return true;">
+    <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/b1fd348e-ba1c-42d6-800f-7db96d3db3cf.jpg" width="300" height="383" class="resize" style="display:block;" border="0" alt="%%=v(@utm_content)=%%"></a></td>
+ </tr>
+ <tr>
+  %%[Set @utm_content = "pie-cartuchos"]%%<td colspan="3">
+   <a href="http://www.lojahp.com.br/?Filtro=D2858&%%=v(@utm_padrao)=%%%%=v(@utm_content)=%%%%=v(@utm_campaign)=%%" target="_blank"
+    onmouseover="window.status='%%=v(@utm_content)=%%';  return true;"
+    onmouseout="window.status='';  return true;">
+    <img src="http://image.lar2.mail.hp.com/lib/fe8f157371630c7475/m/17/ea96eb54-cfb2-4a88-ae2f-be52ad47f6c2.jpg" width="600" height="96" class="resize" style="display:block;" border="0" alt="%%=v(@utm_content)=%%"></a></td>
+ </tr>
+
+
+<!------------------------------------------------------------ END DESTAQUE ACCENTURE HTML ------------------------------------------------------------> 
+       </table> 
+  </td>
+ </tr>
+    <!-- BEGIN LOWNAV SECTION--> 
+    <tr><td valign="top">%%=ContentBlockByName("Content Builder\my contents\COMPONENTS\Lownav\BR_LOWNAV_SECTION")=%%</td></tr>
+    <!-- END LOWNAV SECTION -->
+    
+    <!-- BEGIN TJ FOOTER SECTION--> 
+    <tr><td valign="top">%%=ContentBlockByName("Content Builder\my contents\COMPONENTS\TJ_FOOTER\BR_TJ_FOOTER")=%%</td></tr>
+    <!-- END TJ FOOTER SECTION -->
+
+
+</table>
+<custom name="opencounter" type="tracking">
+</body>
+</html>
